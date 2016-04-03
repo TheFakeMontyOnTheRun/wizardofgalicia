@@ -5,4 +5,9 @@ namespace WizardOfGalicia {
     x = 0;
     y = 0;
   }
+
+  Vec2i::Vec2i( int aX, int aY ) {
+    x = aX;
+    y = aY;
+  }
 }

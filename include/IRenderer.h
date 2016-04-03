@@ -4,7 +4,7 @@
 namespace WizardOfGalicia {
   class IRenderer {
   public:
-    virtual void drawMap( CMap &map, CActor *current ) = 0;
+    virtual void drawMap( CMap &map, std::shared_ptr<CActor> current ) = 0;
   };
 }
 #endif

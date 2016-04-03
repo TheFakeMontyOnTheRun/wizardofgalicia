@@ -22,6 +22,8 @@ namespace WizardOfGalicia {
   };
   
 
+  class CMap;
+
   class CActor : public IMapElement {
     
   public:
@@ -33,13 +35,14 @@ namespace WizardOfGalicia {
     int attack;
     Team team;
     
-    void performAttack( CActor &other);
+    virtual void performAttack( std::shared_ptr<CActor> other);
     CActor();
-    void endOfTurn();
-    void onMove();
-    void onAttack();
-    bool canMove();
-    bool canAttack();
+    virtual void endOfTurn();
+    virtual void onMove();
+    virtual void onAttack();
+    virtual bool canMove();
+    virtual bool canAttack();
+    virtual void update( std::shared_ptr<CMap> map) = 0;
   };
 }
 #endif

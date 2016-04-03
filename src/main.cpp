@@ -2,15 +2,16 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <memory>
 
 #include "Vec2i.h"
 #include "IMapElement.h"
 #include "CActor.h"
+#include "CDoorway.h"
+#include "CMap.h"
+
 
 #include "CWizard.h"
-
-
-#include "CMap.h"
 #include "IRenderer.h"
 #include "CConsoleRenderer.h"
 #include "CGame.h"

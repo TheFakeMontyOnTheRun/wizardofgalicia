@@ -2,10 +2,12 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <memory>
 
 #include "Vec2i.h"
 #include "IMapElement.h"
 #include "CActor.h"
+#include "CDoorway.h"
 #include "CMap.h"
 #include "CDoorway.h"
 #include "CBaphomet.h"
@@ -20,10 +22,7 @@
 
 namespace WizardOfGalicia {
 
-  int turn = 1;
-  
-  
-  std::string readMap( const char *mapName ) {
+  std::string CGame::readMap( std::string mapName ) {
     
     std::string entry;
     std::ifstream mapFile( "res/map1.txt" );
@@ -35,7 +34,6 @@ namespace WizardOfGalicia {
       entry += line;
     }
     
-    
     auto position = entry.find('\n' );
     
     while ( position != std::string::npos ) {
@@ -46,19 +44,29 @@ namespace WizardOfGalicia {
     return entry;
   }
   
-  void endOfTurn( CMap &map ) {
-    
-    map.endOfTurn();
+  void CGame::endOfTurn() {    
+    map->endOfTurn();
     ++turn;
+  }
+
+  void CGame::update() {
+    for ( auto actor : map->actors ) {
+      if ( actor->team == Team::VILLAINS ) {
+	actor->update(map);
+      }
+    }
   }
   
   void CGame::runGame( IRenderer *renderer ) {
+    
+    turn = 1;
+    
     std::string entry;
     std::string mapData =  readMap( "res/map1.txt" );
     
-    auto map = new CMap( mapData );
+    map = std::make_shared<CMap>( mapData );
     
-    CActor * avatar = map->mWizard;
+    std::shared_ptr<CActor> avatar = map->mWizard;
     
     while ( true ) {
       
@@ -73,24 +81,20 @@ namespace WizardOfGalicia {
       
       if ( avatar != nullptr ) {
 	
-	if ( entry == "t" ) {
-	  endOfTurn( *map );
-	}
-	
 	if ( entry == "s" ) {
-	  map->move( E, *avatar );
+	  map->move( E, avatar );
 	}
 	
 	if ( entry == "w" ) {
-	  map->move( N, *avatar );
+	  map->move( N, avatar );
 	}
 	
 	if ( entry == "a" ) {
-	  map->move( W, *avatar );
+	  map->move( W, avatar );
 	}
 	
 	if ( entry == "z" ) {
-	  map->move( S, *avatar );
+	  map->move( S, avatar );
 	}
 	
 	if ( entry == "c" ) {
@@ -103,10 +107,11 @@ namespace WizardOfGalicia {
 	  std::cout << "target y?" << std::endl;
 	  std::cin >> y;
 	  
-	  map->attack( *avatar, x, y, false );
+	  map->attack( avatar, x, y, false );
 	}
-      } else {
-	std::cout << "please, select a new character!" << std::endl;
+
+	update();
+	endOfTurn();
       }
     }
   }

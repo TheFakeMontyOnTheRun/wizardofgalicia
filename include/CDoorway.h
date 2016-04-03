@@ -11,7 +11,7 @@ namespace WizardOfGalicia {
   class CDoorway : public IMapElement {
     
   public:
-    CDoorway( DoorwayFunction doorFunction );
+    CDoorway( const Vec2i& pos, DoorwayFunction doorFunction );
     
     const DoorwayFunction doorFunction;
   };

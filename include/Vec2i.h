@@ -7,6 +7,7 @@ namespace WizardOfGalicia {
     int x;
     int y;
     
+    Vec2i( int x, int y );
     Vec2i();
   };
 }

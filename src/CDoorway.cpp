@@ -3,7 +3,10 @@
 #include "CDoorway.h"
 
 namespace WizardOfGalicia {
-  CDoorway::CDoorway( DoorwayFunction f ): doorFunction( f ) {
+  CDoorway::CDoorway( const Vec2i& pos, DoorwayFunction f ): doorFunction( f ) {
+    
+    position = pos;
+    
     if ( f == DoorwayFunction::EXIT ) {
       view = 'E';
     } else {

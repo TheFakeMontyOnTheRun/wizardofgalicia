@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <typeinfo>
+#include <memory>
 
 #include "Vec2i.h"
 #include "IMapElement.h"
@@ -27,7 +28,7 @@ namespace WizardOfGalicia {
   CMap::CMap( const std::string &mapData ) {
     
     char element;
-    CActor *actor = nullptr;
+    std::shared_ptr<CActor> actor = nullptr;
     
     for ( int y = 0; y < 20; ++y ) {
       for ( int x = 0; x < 20; ++x ) {
@@ -43,14 +44,14 @@ namespace WizardOfGalicia {
 	  break;
 	  
 	case '2':
-	  actor = mWizard = new CWizard();
+	  actor = mWizard = std::make_shared<CWizard>();
 	  break;
 	case '9':
 	case '*':
-	  map[ y ][ x ] = new CDoorway( element == '9' ? DoorwayFunction::EXIT : DoorwayFunction::ENTRY );
+	  mDoorways.push_back(std::make_shared<CDoorway>( Vec2i( x, y ), element == '9' ? DoorwayFunction::EXIT : DoorwayFunction::ENTRY ) );
 	  break;
 	case '5':
-	  actor = new CCuco();
+	  actor = std::make_shared<CCuco>();
 	  break;
 	}
 	
@@ -66,21 +67,21 @@ namespace WizardOfGalicia {
   }
   
   
-  CActor* CMap::attack( CActor &actor, int x, int y, bool mutual ) {
+  std::shared_ptr<CActor> CMap::attack( std::shared_ptr<CActor> actor, int x, int y, bool mutual ) {
     
-    CActor *other = nullptr;
+    std::shared_ptr<CActor> other = nullptr;
     
-    other = (CActor*)( map[ y ][ x ] );
+    other = map[ y ][ x ];
     
-    if ( other != nullptr && actor.team != other->team ) {
-      actor.performAttack( *other );
+    if ( other != nullptr && actor->team != other->team ) {
+      actor->performAttack( other );
       
       if ( mutual ) {
 	other->performAttack( actor );
       }
       
-      if ( actor.hp <= 0 ) {
-	map[ actor.position.y ][ actor.position.x ] = nullptr;
+      if ( actor->hp <= 0 ) {
+	map[ actor->position.y ][ actor->position.x ] = nullptr;
       }
       
       if ( other->hp <= 0 ) {
@@ -92,26 +93,26 @@ namespace WizardOfGalicia {
   }
   
   
-  bool CMap::attackIfNotFriendly( Direction d, CActor &actor, bool mutual ) {
+  bool CMap::attackIfNotFriendly( Direction d, std::shared_ptr<CActor> actor, bool mutual ) {
     
-    CActor *other = nullptr;
+    std::shared_ptr<CActor> other = nullptr;
     
     switch ( d ) {
       
     case E:
-      other = attack( actor, actor.position.x + 1,  actor.position.y, mutual );
+      other = attack( actor, actor->position.x + 1,  actor->position.y, mutual );
       break;
       
     case W:
-      other = attack( actor, actor.position.x - 1,  actor.position.y, mutual );
+      other = attack( actor, actor->position.x - 1,  actor->position.y, mutual );
       break;
 
     case S:
-      other = attack( actor, actor.position.x,  actor.position.y + 1, mutual );
+      other = attack( actor, actor->position.x,  actor->position.y + 1, mutual );
       break;
       
     case N:
-      other = attack( actor, actor.position.x,  actor.position.y - 1, mutual );
+      other = attack( actor, actor->position.x,  actor->position.y - 1, mutual );
       break;
     }
     
@@ -119,13 +120,13 @@ namespace WizardOfGalicia {
   }
   
   
-  void CMap::move( Direction d, CActor &actor ) {
+  void CMap::move( Direction d, std::shared_ptr<CActor> actor ) {
     
-    if ( actor.canAttack() && attackIfNotFriendly( d, actor, true ) ) {
+    if ( actor->canAttack() && attackIfNotFriendly( d, actor, true ) ) {
       return;
     }
     
-    if ( !actor.canMove() ) {
+    if ( !actor->canMove() ) {
       return;
     }
     
@@ -135,45 +136,44 @@ namespace WizardOfGalicia {
     switch ( d ) {
       
     case E:
-      if ( !block[  actor.position.y ][ actor.position.x + 1 ] ) {
+      if ( !block[  actor->position.y ][ actor->position.x + 1 ] ) {
 	moved = true;
-	map[ actor.position.y ][  actor.position.x ] = nullptr;
-	++actor.position.x;
-	map[ actor.position.y ][ actor.position.x ] = &actor;
+	map[ actor->position.y ][  actor->position.x ] = nullptr;
+	++actor->position.x;
+	map[ actor->position.y ][ actor->position.x ] = actor;
       }
       break;
       
     case W:
-      if ( !block[  actor.position.y ][ actor.position.x - 1 ] ) {
+      if ( !block[  actor->position.y ][ actor->position.x - 1 ] ) {
 	moved = true;
-	map[ actor.position.y ][  actor.position.x ] = nullptr;
-	--actor.position.x;
-	map[ actor.position.y ][ actor.position.x ] = &actor;
+	map[ actor->position.y ][  actor->position.x ] = nullptr;
+	--actor->position.x;
+	map[ actor->position.y ][ actor->position.x ] = actor;
       }
       break;
       
     case S:
-      if ( !block[  actor.position.y + 1 ][ actor.position.x ] ) {
+      if ( !block[  actor->position.y + 1 ][ actor->position.x ] ) {
 	moved = true;
-	map[ actor.position.y ][  actor.position.x ] = nullptr;
-	++actor.position.y;
-	map[ actor.position.y ][ actor.position.x ] = &actor;
+	map[ actor->position.y ][  actor->position.x ] = nullptr;
+	++actor->position.y;
+	map[ actor->position.y ][ actor->position.x ] = actor;
       }
       break;
       
     case N:
-      if ( !block[  actor.position.y -1 ][ actor.position.x ] ) {
+      if ( !block[  actor->position.y -1 ][ actor->position.x ] ) {
 	moved = true;
-	map[ actor.position.y ][  actor.position.x ] = nullptr;
-	--actor.position.y;
-	map[ actor.position.y ][ actor.position.x ] = &actor;
+	map[ actor->position.y ][  actor->position.x ] = nullptr;
+	--actor->position.y;
+	map[ actor->position.y ][ actor->position.x ] = actor;
       }
-      break;
-      
+      break; 
     }
     
     if ( moved ) {
-      actor.onMove();
+      actor->onMove();
     }
   }
 }

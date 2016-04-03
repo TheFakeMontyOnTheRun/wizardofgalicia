@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "Vec2i.h"
 #include "IMapElement.h"
 #include "CActor.h"
@@ -30,14 +32,14 @@ namespace WizardOfGalicia {
   void CActor::endOfTurn() {
   }
   
-  void CActor::performAttack( CActor &other ) {
+  void CActor::performAttack( std::shared_ptr<CActor> other ) {
     
     onAttack();
     
-    int diff = ( attack - other.defence );
+    int diff = ( attack - other->defence );
     
     if ( diff > 0 ) {
-        other.hp -= diff;
+        other->hp -= diff;
     }
   }
 }

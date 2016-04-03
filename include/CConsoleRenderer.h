@@ -4,7 +4,7 @@
 namespace WizardOfGalicia {
   class CConsoleRenderer : public IRenderer {
   public:
-    void drawMap( CMap &map, CActor *current );
+    void drawMap( CMap &map, std::shared_ptr<CActor> current ) override;
   };
 }
 #endif

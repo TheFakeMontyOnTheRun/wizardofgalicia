@@ -5,6 +5,7 @@ namespace WizardOfGalicia {
   class CWizard : public CActor {
   public:
     CWizard();
+    void update( std::shared_ptr<CMap> map ) override;
   };
 }
 #endif

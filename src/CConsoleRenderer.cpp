@@ -1,10 +1,12 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "Vec2i.h"
 #include "IMapElement.h"
 #include "CActor.h"
+#include "CDoorway.h"
 #include "CMap.h"
 #include "IRenderer.h"
 #include "CConsoleRenderer.h"
@@ -30,7 +32,7 @@ namespace WizardOfGalicia {
     stream << "\x1B[2J\x1B[H";
   }
   
-  void CConsoleRenderer::drawMap( CMap &map, CActor *current ) {
+  void CConsoleRenderer::drawMap( CMap &map, std::shared_ptr<CActor> current ) {
     
     clear( std::cout );
     
