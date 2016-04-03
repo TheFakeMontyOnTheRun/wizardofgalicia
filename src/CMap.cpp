@@ -23,8 +23,16 @@ namespace WizardOfGalicia {
       }
     }
   }
+
+  bool CMap::isBlockAt( int x, int y ) {
+    return block[ y ][ x ];
+  }
   
   
+  bool CMap::isValid( int x, int y ) {
+    return x >= 0 && y >= 0 && x < 20 && y < 20;
+  }
+
   CMap::CMap( const std::string &mapData ) {
     
     char element;

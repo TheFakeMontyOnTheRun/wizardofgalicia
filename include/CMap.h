@@ -13,6 +13,8 @@ namespace WizardOfGalicia {
     CMap( const std::string &data );
     void move( Direction d, std::shared_ptr<CActor> a );
     bool attackIfNotFriendly( Direction d, std::shared_ptr<CActor> a, bool mutual );
+    bool isBlockAt( int x, int y );
+    bool isValid( int x, int y );
     void endOfTurn();
     std::shared_ptr<CActor> attack( std::shared_ptr<CActor> actor, int x, int y, bool mutual );
   };

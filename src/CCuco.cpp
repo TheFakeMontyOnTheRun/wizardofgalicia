@@ -25,25 +25,63 @@ namespace WizardOfGalicia {
     int dx = x - position.x;
     int dy = y - position.y;
 
+    std::cout << "dx, dy " << dx << ", " << dy << std::endl;
+
     std::shared_ptr<CCuco> sharedThis = shared_from_this();
 
-    if ( abs( dx ) < abs( dy ) ) {
+    if ( abs( dx ) > abs( dy ) ) {
+      
+      std::cout << "it's horizontal" << std::endl;
+      
       if ( dx < 0 ) {
+	std::cout << "move W" << std::endl;
 	map->move( W, sharedThis );       
 	return true;
       } else if ( dx > 0 ) {
+	std::cout << "move E" << std::endl;
 	map->move( E, sharedThis ); 
 	return true;
       }
     } else {
+
+	std::cout << "it's vertical" << std::endl;
+
       if ( dy < 0 ) {
+	std::cout << "move N" << std::endl;
 	map->move( N, sharedThis );       
 	return true;
       } else if (dy > 0 ){
+	std::cout << "move S" << std::endl;
 	map->move( S, sharedThis ); 
 	return true;
       }
     }
+
+    std::cout << "reached!" << std::endl;
+    return false;
+  }
+
+  bool CCuco::actOn( int newX, int newY,  std::shared_ptr<CMap> map ) { 
+
+    if (map->isValid( newX, newY ) ) {
+      
+      if (map->map[ newY][ newX ] != nullptr
+	  && map->map[ newY][ newX ]->team == Team::HEROES) {
+	
+	if (dealWith( map, newX, newY ) ) {
+
+	  return true;
+	}
+      }
+      
+      if ( map->isBlockAt( newX, newY ) ) {
+	std::cout << "block!" << std::endl;
+	return true;
+      }
+      
+      //      std::cout << "newX, newY " << newX << ", " << newY << std::endl;
+    } 
+
     return false;
   }
 
@@ -53,39 +91,52 @@ namespace WizardOfGalicia {
     int newX;
     int newY;
     
-    for (int x = -10; x < 10; ++x) {
+    std::cout << "updating cuco at " << position.x << ", " << position.y << std::endl;
+
+    for (int x = 0; x < 10; ++x) {
 
       newX =  (x + position.x);
       newY =  (position.y);
       scan.x = newX;
       scan.y = newY;
-
-      if (newX >= 0 && newY >= 0 && newX < 20
-                    && newY < 20
-	  && map->map[ newY][ newX ] != nullptr
-	  && map->map[ newY][ newX ]->team == Team::HEROES ) {
-
-	if (dealWith( map, newX, 0 ) ) {
-	  return;
-	}
+      if ( actOn( newX, newY, map ) ) {
+	break;
       }
     }
 
-    for (int y = -10; y < 10; ++y) {
+    for (int x = 0; x > -10; --x) {
+
+      newX =  (x + position.x);
+      newY =  (position.y);
+      scan.x = newX;
+      scan.y = newY;
+      
+      if ( actOn( newX, newY, map ) ) {
+	break;
+      }
+    }
+
+    for (int y = 0; y < 10; ++y) {
 
       newX = (position.x);
       newY = (y + position.y);
       scan.x = newX;
       scan.y = newY;
 
-      if (newX >= 0 && newY >= 0 && newX < 20
-	  && newY < 20
-	  && map->map[ newY][ newX ] != nullptr
-	  && map->map[ newY][ newX ]->team == Team::HEROES ) {
+      if ( actOn( newX, newY, map ) ) {
+	break;
+      }
+    }
 
-	if (dealWith( map, 0, newY ) ) {
-	  return;
-	}
+    for (int y = 0; y > -10; --y) {
+
+      newX = (position.x);
+      newY = (y + position.y);
+      scan.x = newX;
+      scan.y = newY;
+
+      if ( actOn( newX, newY, map ) ) {
+	break;
       }
     }
   }

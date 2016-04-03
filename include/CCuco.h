@@ -7,6 +7,7 @@ namespace WizardOfGalicia {
     CCuco();
     bool dealWith( std::shared_ptr<CMap> map, int x, int y );
     void update( std::shared_ptr<CMap> map ) override;
+    bool actOn( int x, int y,  std::shared_ptr<CMap> map );
   };
 }
 #endif
