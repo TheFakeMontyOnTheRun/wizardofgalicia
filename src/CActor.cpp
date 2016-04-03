@@ -7,11 +7,11 @@
 namespace WizardOfGalicia {
   CActor::CActor() {
     
-    stance = STANDING;
+    stance = Stance::STANDING;
     attack = 0;
     defence = 0;
     hp = 0;
-    direction = N;
+    direction = Direction::N;
   }
   
   
@@ -22,7 +22,24 @@ namespace WizardOfGalicia {
   bool CActor::canAttack() {
     return true;
   }
+
+  void CActor::turnLeft() {
+    
+    if ( direction == Direction::N ) {
+      direction = Direction::W;
+    } else {
+      direction = static_cast<Direction>( static_cast<int>(direction) - 1);
+    }
+  }
   
+  void CActor::turnRight() {
+    if ( direction == Direction::W ) {
+      direction = Direction::N;
+    } else {
+      direction = static_cast<Direction>( static_cast<int>(direction) + 1);
+    }
+  }
+
   void CActor::onMove() {
   }
   

@@ -28,6 +28,9 @@ namespace WizardOfGalicia {
     return block[ y ][ x ];
   }
   
+
+  void CMap::cast( std::shared_ptr<CActor> actor ) {
+  }
   
   bool CMap::isValid( int x, int y ) {
     return x >= 0 && y >= 0 && x < 20 && y < 20;
@@ -107,19 +110,19 @@ namespace WizardOfGalicia {
     
     switch ( d ) {
       
-    case E:
+    case Direction::E:
       other = attack( actor, actor->position.x + 1,  actor->position.y, mutual );
       break;
       
-    case W:
+    case Direction::W:
       other = attack( actor, actor->position.x - 1,  actor->position.y, mutual );
       break;
 
-    case S:
+    case Direction::S:
       other = attack( actor, actor->position.x,  actor->position.y + 1, mutual );
       break;
       
-    case N:
+    case Direction::N:
       other = attack( actor, actor->position.x,  actor->position.y - 1, mutual );
       break;
     }
@@ -143,7 +146,7 @@ namespace WizardOfGalicia {
     
     switch ( d ) {
       
-    case E:
+    case Direction::E:
       if ( !block[  actor->position.y ][ actor->position.x + 1 ] ) {
 	moved = true;
 	map[ actor->position.y ][  actor->position.x ] = nullptr;
@@ -152,7 +155,7 @@ namespace WizardOfGalicia {
       }
       break;
       
-    case W:
+    case Direction::W:
       if ( !block[  actor->position.y ][ actor->position.x - 1 ] ) {
 	moved = true;
 	map[ actor->position.y ][  actor->position.x ] = nullptr;
@@ -161,7 +164,7 @@ namespace WizardOfGalicia {
       }
       break;
       
-    case S:
+    case Direction::S:
       if ( !block[  actor->position.y + 1 ][ actor->position.x ] ) {
 	moved = true;
 	map[ actor->position.y ][  actor->position.x ] = nullptr;
@@ -170,7 +173,7 @@ namespace WizardOfGalicia {
       }
       break;
       
-    case N:
+    case Direction::N:
       if ( !block[  actor->position.y -1 ][ actor->position.x ] ) {
 	moved = true;
 	map[ actor->position.y ][  actor->position.x ] = nullptr;

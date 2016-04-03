@@ -82,19 +82,42 @@ namespace WizardOfGalicia {
       if ( avatar != nullptr ) {
 	
 	if ( entry == "s" ) {
-	  map->move( E, avatar );
+	  map->move( Direction::E, avatar );
 	}
 	
 	if ( entry == "w" ) {
-	  map->move( N, avatar );
+	  map->move( Direction::N, avatar );
 	}
 	
 	if ( entry == "a" ) {
-	  map->move( W, avatar );
+	  map->move( Direction::W, avatar );
+	}
+
+	if ( entry == "i" ) {
+	  avatar->turnLeft();
+	}
+
+	if ( entry == "o" ) {
+	  map->move( avatar->direction, avatar );
 	}
 	
+	if ( entry == "p" ) {
+	  avatar->turnRight();
+	}
+
+	if ( entry == "k" ) {
+	  
+	}
+
+	if ( entry == "l" ) {
+	}
+
+	if ( entry == "f" ) {
+	  map->cast( avatar );
+	}
+
 	if ( entry == "z" ) {
-	  map->move( S, avatar );
+	  map->move( Direction::S, avatar );
 	}
 	
 	if ( entry == "c" ) {

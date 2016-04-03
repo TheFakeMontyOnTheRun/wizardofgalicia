@@ -3,18 +3,18 @@
 
 namespace WizardOfGalicia {
 
-  enum Stance {
+  enum class Stance {
     STANDING,
     ATTACKING,
     DEAD
   };
   
-  enum Team {
+  enum class Team {
     HEROES,
     VILLAINS
   };
   
-  enum Direction {
+  enum class Direction {
     N,
     E,
     S,
@@ -43,6 +43,8 @@ namespace WizardOfGalicia {
     virtual bool canMove();
     virtual bool canAttack();
     virtual void update( std::shared_ptr<CMap> map) = 0;
+    virtual void turnLeft();
+    virtual void turnRight();
   };
 }
 #endif

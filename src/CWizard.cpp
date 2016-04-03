@@ -8,7 +8,7 @@
 namespace WizardOfGalicia {
   CWizard::CWizard() : CActor() {
     view = '^';
-    team = HEROES;
+    team = Team::HEROES;
     hp = 5;
     attack = 4;
     defence = 1;

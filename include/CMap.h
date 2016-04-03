@@ -16,6 +16,7 @@ namespace WizardOfGalicia {
     bool isBlockAt( int x, int y );
     bool isValid( int x, int y );
     void endOfTurn();
+    void cast( std::shared_ptr<CActor> actor );
     std::shared_ptr<CActor> attack( std::shared_ptr<CActor> actor, int x, int y, bool mutual );
   };
 }

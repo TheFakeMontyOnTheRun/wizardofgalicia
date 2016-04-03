@@ -15,7 +15,7 @@ namespace WizardOfGalicia {
   
   CCuco::CCuco() : CActor() {
     view = '@';
-    team = VILLAINS;
+    team = Team::VILLAINS;
     hp = 5;
     attack = 4;
     defence = 1;
