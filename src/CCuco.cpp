@@ -9,8 +9,6 @@
 #include "CMap.h"
 #include "CCuco.h"
 
-#include <iostream>
-
 namespace WizardOfGalicia {
   
   CCuco::CCuco() : CActor() {
@@ -25,39 +23,28 @@ namespace WizardOfGalicia {
     int dx = x - position.x;
     int dy = y - position.y;
 
-    std::cout << "dx, dy " << dx << ", " << dy << std::endl;
-
     std::shared_ptr<CCuco> sharedThis = shared_from_this();
 
     if ( abs( dx ) > abs( dy ) ) {
       
-      std::cout << "it's horizontal" << std::endl;
-      
       if ( dx < 0 ) {
-	std::cout << "move W" << std::endl;
-	map->move( W, sharedThis );       
+	map->move( Direction::W, sharedThis );       
 	return true;
       } else if ( dx > 0 ) {
-	std::cout << "move E" << std::endl;
-	map->move( E, sharedThis ); 
+	map->move( Direction::E, sharedThis ); 
 	return true;
       }
     } else {
 
-	std::cout << "it's vertical" << std::endl;
-
       if ( dy < 0 ) {
-	std::cout << "move N" << std::endl;
-	map->move( N, sharedThis );       
+	map->move( Direction::N, sharedThis );       
 	return true;
       } else if (dy > 0 ){
-	std::cout << "move S" << std::endl;
-	map->move( S, sharedThis ); 
+	map->move( Direction::S, sharedThis ); 
 	return true;
       }
     }
 
-    std::cout << "reached!" << std::endl;
     return false;
   }
 
@@ -75,13 +62,10 @@ namespace WizardOfGalicia {
       }
       
       if ( map->isBlockAt( newX, newY ) ) {
-	std::cout << "block!" << std::endl;
 	return true;
       }
       
-      //      std::cout << "newX, newY " << newX << ", " << newY << std::endl;
     } 
-
     return false;
   }
 
@@ -91,8 +75,6 @@ namespace WizardOfGalicia {
     int newX;
     int newY;
     
-    std::cout << "updating cuco at " << position.x << ", " << position.y << std::endl;
-
     for (int x = 0; x < 10; ++x) {
 
       newX =  (x + position.x);

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "Vec2i.h"
 #include "IMapElement.h"
@@ -18,7 +19,7 @@
 #include "IRenderer.h"
 #include "CConsoleRenderer.h"
 #include "CGame.h"
-
+#include "CFireball.h"
 
 namespace WizardOfGalicia {
 
@@ -50,11 +51,18 @@ namespace WizardOfGalicia {
   }
 
   void CGame::update() {
+
     for ( auto actor : map->actors ) {
-      if ( actor->team == Team::VILLAINS ) {
+      if ( actor->hp > 0 ) {
 	actor->update(map);
+      } else {
+	map->map[ actor->position.y][actor->position.x] = nullptr;
       }
     }
+
+    map->actors.erase( std::remove_if( map->actors.begin(), map->actors.end(), 
+				       [](std::shared_ptr<CActor> actor){ return actor->hp <= 0;}
+				       ), map->actors.end() );
   }
   
   void CGame::runGame( IRenderer *renderer ) {

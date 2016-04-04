@@ -11,7 +11,7 @@
 #include "CMap.h"
 #include "CWizard.h"
 #include "CCuco.h"
-
+#include "CFireball.h"
 
 namespace WizardOfGalicia {
   void CMap::endOfTurn() {
@@ -30,6 +30,9 @@ namespace WizardOfGalicia {
   
 
   void CMap::cast( std::shared_ptr<CActor> actor ) {
+    auto fireball = std::make_shared<CFireball>( actor->direction, actor->position );
+    map[ actor->position.y ][ actor->position.x ] = fireball;
+    actors.push_back(fireball);
   }
   
   bool CMap::isValid( int x, int y ) {

@@ -39,7 +39,7 @@ namespace WizardOfGalicia {
     for ( int y = 0; y < 20; ++y ) {
       for ( int x = 0; x < 20; ++x ) {
 	
-	if ( map.map[ y ][ x ] != nullptr ) {
+	if ( map.map[ y ][ x ] != nullptr && map.map[ y ][ x ]->hp > 0 ) {
 	  if ( map.map[ y ][ x ] == current && current != nullptr ) {
 	    setColourFor( std::cout, YELLOW );
 	  } else {
