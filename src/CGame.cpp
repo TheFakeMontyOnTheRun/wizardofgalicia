@@ -50,6 +50,14 @@ namespace WizardOfGalicia {
     ++turn;
   }
 
+  std::shared_ptr<CActor> CGame::getActorAt( const Vec2i& position ) {
+    return map->map[ position.y ][ position.x ];
+  }
+
+  void CGame::putAt( const Vec2i& position, std::shared_ptr<CActor> actor ) {
+    map->map[ actor->position.y ][ actor->position.x ] = actor;
+  }
+
   void CGame::update() {
 
     for ( auto actor : map->actors ) {
@@ -59,10 +67,16 @@ namespace WizardOfGalicia {
 	map->map[ actor->position.y][actor->position.x] = nullptr;
       }
     }
-
+    
     map->actors.erase( std::remove_if( map->actors.begin(), map->actors.end(), 
 				       [](std::shared_ptr<CActor> actor){ return actor->hp <= 0;}
 				       ), map->actors.end() );
+  
+    for ( auto actor : map->actors ) {
+      if ( getActorAt( actor->position ) == nullptr ) {
+	putAt( actor->position, actor );
+      }    
+    }
   }
   
   void CGame::runGame( IRenderer *renderer ) {
@@ -133,6 +147,9 @@ namespace WizardOfGalicia {
 	  map->move( Direction::S, avatar );
 	}
 	
+	if ( entry == "t" ) {
+	  shouldEndTurn = true;
+	}
 
 	if ( shouldEndTurn ) {
 	  update();

@@ -13,6 +13,9 @@ namespace WizardOfGalicia {
     std::string readMap( std::string filename );
     void runGame( IRenderer *renderer );
     void update();
+
+    std::shared_ptr<CActor> getActorAt( const Vec2i& position );
+    void putAt( const Vec2i& position, std::shared_ptr<CActor> actor );
   };
 }
 #endif
