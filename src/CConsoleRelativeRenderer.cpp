@@ -69,8 +69,7 @@ namespace WizardOfGalicia {
     
     if ( current != nullptr ) {
       std::cout << "HP: " << current->hp << std::endl;
-      std::cout << "AT: " << current->attack << std::endl;
-      std::cout << "DF: " << current->defence << std::endl;
+      std::cout << "EN: " << current->magicEnergy << std::endl;
     }
     
     std::cout << "-//-" << std::endl;
