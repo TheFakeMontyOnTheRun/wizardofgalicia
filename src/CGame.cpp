@@ -68,7 +68,7 @@ namespace WizardOfGalicia {
   void CGame::runGame( IRenderer *renderer ) {
     
     turn = 1;
-    
+    bool shouldEndTurn = false;
     std::string entry;
     std::string mapData =  readMap( "res/map1.txt" );
     
@@ -91,14 +91,17 @@ namespace WizardOfGalicia {
 	
 	if ( entry == "s" ) {
 	  map->move( Direction::E, avatar );
+	  shouldEndTurn = true;
 	}
 	
 	if ( entry == "w" ) {
 	  map->move( Direction::N, avatar );
+	  shouldEndTurn = true;
 	}
 	
 	if ( entry == "a" ) {
 	  map->move( Direction::W, avatar );
+	  shouldEndTurn = true;
 	}
 
 	if ( entry == "i" ) {
@@ -106,6 +109,7 @@ namespace WizardOfGalicia {
 	}
 
 	if ( entry == "o" ) {
+	  shouldEndTurn = true;
 	  map->move( avatar->direction, avatar );
 	}
 	
@@ -122,27 +126,19 @@ namespace WizardOfGalicia {
 
 	if ( entry == "f" ) {
 	  map->cast( avatar );
+	  shouldEndTurn = true;
 	}
 
 	if ( entry == "z" ) {
 	  map->move( Direction::S, avatar );
 	}
 	
-	if ( entry == "c" ) {
-	  
-	  int x;
-	  int y;
-	  
-	  std::cout << "target x?" << std::endl;
-	  std::cin >> x;
-	  std::cout << "target y?" << std::endl;
-	  std::cin >> y;
-	  
-	  map->attack( avatar, x, y, false );
-	}
 
-	update();
-	endOfTurn();
+	if ( shouldEndTurn ) {
+	  update();
+	  endOfTurn();
+	  shouldEndTurn = false;
+	}
       }
     }
   }
