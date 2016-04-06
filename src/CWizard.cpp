@@ -18,4 +18,31 @@ namespace WizardOfGalicia {
   void CWizard::update(std::shared_ptr<CMap> map) {
     magicEnergy += ( magicEnergy / abs( magicEnergy ) );
   }
+
+  void CWizard::turnLeft() {
+    CActor::turnLeft();
+    updateView();
+  }
+
+  void CWizard::turnRight() {
+    CActor::turnRight();
+    updateView();
+  }
+
+  void CWizard::updateView() {
+    switch (direction) {
+    case Direction::N:
+      view = '^';
+      break;
+    case Direction::W:
+      view = '<';
+      break;
+    case Direction::E:
+      view = '>';
+      break;
+    case Direction::S:
+      view = 'V';
+      break;
+    }
+  }
 }

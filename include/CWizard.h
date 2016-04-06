@@ -6,6 +6,9 @@ namespace WizardOfGalicia {
   public:
     CWizard();
     void update( std::shared_ptr<CMap> map ) override;
+    virtual void turnLeft() override;
+    virtual void turnRight() override;
+    virtual void updateView();
   };
 }
 #endif
