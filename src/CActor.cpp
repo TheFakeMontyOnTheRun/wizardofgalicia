@@ -51,6 +51,10 @@ namespace WizardOfGalicia {
   
   void CActor::performAttack( std::shared_ptr<CActor> other ) {
     
+    if ( abs( magicEnergy ) < abs( other->magicEnergy ) ) {
+      return;
+    }
+
     onAttack();
     
     int diff = ( attack - other->defence );
@@ -58,5 +62,9 @@ namespace WizardOfGalicia {
     if ( diff > 0 ) {
         other->hp -= diff;
     }
+
+    int deltaEnergy = (magicEnergy + other->magicEnergy) / 2;
+
+    magicEnergy += deltaEnergy;
   }
 }

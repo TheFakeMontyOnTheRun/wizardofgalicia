@@ -12,9 +12,10 @@ namespace WizardOfGalicia {
     hp = 5;
     attack = 4;
     defence = 1;
+    magicEnergy = 20;
   }
 
   void CWizard::update(std::shared_ptr<CMap> map) {
-    
+    magicEnergy += ( magicEnergy / abs( magicEnergy ) );
   }
 }

@@ -21,6 +21,7 @@ namespace WizardOfGalicia {
     W
   };
   
+  const int FIREBALL_COST = 5;
 
   class CMap;
 
@@ -33,6 +34,7 @@ namespace WizardOfGalicia {
     int hp;
     int defence;
     int attack;
+    int magicEnergy;
     Team team;
     
     virtual void performAttack( std::shared_ptr<CActor> other);
