@@ -10,4 +10,8 @@ namespace WizardOfGalicia {
     x = aX;
     y = aY;
   }
+
+  bool Vec2i::operator==( const Vec2i &other ) {
+    return this->x == other.x && this->y == other.y;
+  }
 }

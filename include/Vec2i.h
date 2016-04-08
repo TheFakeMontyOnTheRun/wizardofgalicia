@@ -9,6 +9,8 @@ namespace WizardOfGalicia {
     
     Vec2i( int x, int y );
     Vec2i();
+    
+    bool operator==( const Vec2i &other );
   };
 }
 #endif

@@ -187,10 +187,10 @@ namespace WizardOfGalicia {
   }
 
   bool CGame::playerIsDead( std::shared_ptr<CActor> avatar ) {
-    return false;
+    return avatar->hp <= 0;
   }
   
   bool CGame::playerHasFinishedLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map ) {
-    return false;
+    return map->isAtExit( avatar );
   }
 }

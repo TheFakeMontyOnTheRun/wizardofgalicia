@@ -7,7 +7,7 @@ namespace WizardOfGalicia {
     
     position = pos;
     
-    if ( f == DoorwayFunction::EXIT ) {
+    if ( f == DoorwayFunction::Exit ) {
       view = 'E';
     } else {
       view = 'B';

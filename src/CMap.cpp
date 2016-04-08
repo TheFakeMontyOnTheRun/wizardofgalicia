@@ -69,7 +69,7 @@ namespace WizardOfGalicia {
 	  break;
 	case '9':
 	case '*':
-	  mDoorways.push_back(std::make_shared<CDoorway>( Vec2i( x, y ), element == '9' ? DoorwayFunction::EXIT : DoorwayFunction::ENTRY ) );
+	  mDoorways.push_back(std::make_shared<CDoorway>( Vec2i( x, y ), element == '9' ? DoorwayFunction::Exit : DoorwayFunction::Entry ) );
 	  break;
 	case '5':
 	  actor = std::make_shared<CCuco>();
@@ -138,6 +138,16 @@ namespace WizardOfGalicia {
     }
     
     return ( other != nullptr );
+  }
+
+  bool CMap::isAtExit( std::shared_ptr<CActor> character ) {
+    for ( auto doorway : mDoorways ) {
+      if ( doorway->doorFunction == DoorwayFunction::Exit && character->position == doorway->position ) {
+	return true;
+      }
+    }
+
+    return false;
   }
   
   

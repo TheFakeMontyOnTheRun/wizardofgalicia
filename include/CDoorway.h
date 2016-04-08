@@ -3,8 +3,8 @@
 
 namespace WizardOfGalicia {
   enum DoorwayFunction {
-    ENTRY,
-    EXIT
+    Entry,
+    Exit
   };
   
   
