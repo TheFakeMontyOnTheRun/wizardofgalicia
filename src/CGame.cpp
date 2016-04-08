@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <sstream>
 
 #include "Vec2i.h"
 #include "IMapElement.h"
@@ -23,10 +24,17 @@
 
 namespace WizardOfGalicia {
 
-  std::string CGame::readMap( std::string mapName ) {
+  std::string CGame::readMap( int level ) {
     
     std::string entry;
-    std::ifstream mapFile( "res/map1.txt" );
+
+    std::stringstream levelNameBuilder;
+
+    levelNameBuilder << "res/map";
+    levelNameBuilder << level;
+    levelNameBuilder << ".txt";
+
+    std::ifstream mapFile( levelNameBuilder.str() );
     
     char line[ 80 ];
     
@@ -79,12 +87,12 @@ namespace WizardOfGalicia {
     }
   }
   
-  void CGame::runGame( IRenderer *renderer ) {
+  GameResult CGame::runGame( IRenderer *renderer, int level ) {
     
     turn = 1;
     bool shouldEndTurn = false;
     std::string entry;
-    std::string mapData =  readMap( "res/map1.txt" );
+    std::string mapData =  readMap( level );
     
     map = std::make_shared<CMap>( mapData );
     
@@ -138,6 +146,14 @@ namespace WizardOfGalicia {
 	if ( entry == "l" ) {
 	}
 
+	if ( entry == "end" ) {
+	  return GameResult::PlayerHasDied;
+	}
+
+	if ( entry == "win" ) {
+	  return GameResult::PlayerHasFinishedLevel;
+	}
+
 	if ( entry == "f" ) {
 	  map->cast( avatar );
 	  shouldEndTurn = true;
@@ -156,7 +172,25 @@ namespace WizardOfGalicia {
 	  endOfTurn();
 	  shouldEndTurn = false;
 	}
+
+	if ( playerIsDead( avatar ) ) {
+	  return GameResult::PlayerHasDied;
+	}
+
+	if ( playerHasFinishedLevel( avatar, map ) ) {
+	  return GameResult::PlayerHasFinishedLevel;
+	}
       }
     }
+
+    return GameResult::UndefinedBehaviour;
+  }
+
+  bool CGame::playerIsDead( std::shared_ptr<CActor> avatar ) {
+    return false;
+  }
+  
+  bool CGame::playerHasFinishedLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map ) {
+    return false;
   }
 }
