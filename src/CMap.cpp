@@ -149,6 +149,16 @@ namespace WizardOfGalicia {
 
     return false;
   }
+
+  bool CMap::isAtEntrance( std::shared_ptr<CActor> character ) {
+    for ( auto doorway : mDoorways ) {
+      if ( doorway->doorFunction == DoorwayFunction::Entry && character->position == doorway->position ) {
+	return true;
+      }
+    }
+
+    return false;
+  }
   
   
   void CMap::move( Direction d, std::shared_ptr<CActor> actor ) {

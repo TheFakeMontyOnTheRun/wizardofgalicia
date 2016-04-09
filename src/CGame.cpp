@@ -25,6 +25,8 @@
 namespace WizardOfGalicia {
 
   std::string CGame::readMap( int level ) {
+
+    std::cout << "loading level " << level << std::endl;
     
     std::string entry;
 
@@ -180,6 +182,10 @@ namespace WizardOfGalicia {
 	if ( playerHasFinishedLevel( avatar, map ) ) {
 	  return GameResult::PlayerHasFinishedLevel;
 	}
+
+	if ( hasPlayerReturnedToPreviousLevel( avatar, map ) ) {
+	  return GameResult::PlayerHasReturnedALevel;
+	}
       }
     }
 
@@ -192,5 +198,9 @@ namespace WizardOfGalicia {
   
   bool CGame::playerHasFinishedLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map ) {
     return map->isAtExit( avatar );
+  }
+
+  bool CGame::hasPlayerReturnedToPreviousLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map ) {
+    return map->isAtEntrance( avatar );
   }
 }

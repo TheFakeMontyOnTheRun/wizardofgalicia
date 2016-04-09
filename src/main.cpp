@@ -23,9 +23,13 @@ int main ( int argc, char **argv ) {
   WizardOfGalicia::CGame game; 
   int level = 1;
 
-  while ( level <= 2 ) {
-    if ( game.runGame( new WizardOfGalicia::CConsoleRenderer(), level ) == WizardOfGalicia::GameResult::PlayerHasFinishedLevel ) {
+  while ( level > 0 && level <= 2 ) {
+    WizardOfGalicia::GameResult result = game.runGame( new WizardOfGalicia::CConsoleRenderer(), level );
+
+    if ( result == WizardOfGalicia::GameResult::PlayerHasFinishedLevel ) {
       ++level;
+    } else if ( result == WizardOfGalicia::GameResult::PlayerHasReturnedALevel ) {
+      --level;
     } else {
       return 0;
     }

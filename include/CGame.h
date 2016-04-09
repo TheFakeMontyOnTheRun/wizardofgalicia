@@ -6,7 +6,8 @@ namespace WizardOfGalicia {
   enum class GameResult {
     UndefinedBehaviour,
       PlayerHasDied,
-      PlayerHasFinishedLevel
+      PlayerHasFinishedLevel,
+      PlayerHasReturnedALevel
       };
   
   class CGame {
@@ -24,8 +25,8 @@ namespace WizardOfGalicia {
     void putAt( const Vec2i& position, std::shared_ptr<CActor> actor );
 
     bool playerIsDead( std::shared_ptr<CActor> avatar );
-    bool playerHasFinishedLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map ) ;
-  
+    bool playerHasFinishedLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map );
+    bool hasPlayerReturnedToPreviousLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map );
   };
 }
 #endif
