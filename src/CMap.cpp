@@ -12,6 +12,7 @@
 #include "CWizard.h"
 #include "CCuco.h"
 #include "CFireball.h"
+#include "CRelic.h"
 
 namespace WizardOfGalicia {
   void CMap::endOfTurn() {
@@ -62,10 +63,12 @@ namespace WizardOfGalicia {
 	case '0':
 	case '1':
 	  block[ y ][ x ] = ( element == '1' );
-	  break;
-	  
+	  break;	  
 	case '2':
 	  actor = mWizard = std::make_shared<CWizard>();
+	  break;
+	case '$':
+	  actor = std::make_shared<CRelic>();
 	  break;
 	case '9':
 	case '*':
