@@ -57,9 +57,16 @@ namespace WizardOfGalicia {
 	  } else {
 	    
 	    setColourFor( std::cout, GREEN );
-	    std::cout << ".";
+	  
+	    char toRender = '.';
+	    for ( auto doorway : map.mDoorways ) {
+	      if ( doorway->position.x == x && doorway->position.y == y ) {
+		toRender = doorway->view;
+	      }
+	    }
+	    std::cout << toRender;
 	  }
-	}
+	} 
       }
       std::cout << std::endl;
     }   
