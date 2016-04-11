@@ -8,8 +8,6 @@
 #include "CDoorway.h"
 #include "CMap.h"
 
-#include <iostream>
-
 namespace WizardOfGalicia {
   CFireball::CFireball(Direction d, const Vec2i& p ) : CActor() {
     view = '*';
@@ -19,11 +17,9 @@ namespace WizardOfGalicia {
     position = p;
     attack = 10;
     defence = 0;
-    std::cout << "fireball constructed" << std::endl;
   }
 
   void CFireball::update(std::shared_ptr<CMap> map) {
-    std::cout << "fireball" << std::endl;
     Vec2i previous = Vec2i( position );
     map->move( direction, shared_from_this() ); 
     if ( previous.x == position.x && previous.y == position.y ) {
