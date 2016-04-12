@@ -12,7 +12,8 @@ namespace WizardOfGalicia {
   enum class Team {
     HEROES,
       VILLAINS,
-      RELICS
+      RELICS,
+      PROJECTILES
       };
   
   enum class Direction {

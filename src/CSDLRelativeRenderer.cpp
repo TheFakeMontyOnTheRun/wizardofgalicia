@@ -116,5 +116,6 @@ namespace WizardOfGalicia {
     }
 
     SDL_Flip(video);
+    SDL_Delay( 20 );
   }
 }

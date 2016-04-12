@@ -88,6 +88,16 @@ namespace WizardOfGalicia {
       }    
     }
   }
+
+
+  void CGame::updatePendingProjectiles() {
+    for( auto actor : map->actors ) {
+      if ( actor->view == '*' ) {
+	actor->update( map );
+      }
+    }
+  }
+
   
   GameResult CGame::runGame( IRenderer *renderer, int level ) {
     
@@ -110,7 +120,7 @@ namespace WizardOfGalicia {
 	avatar = nullptr;
       }
       
-
+      updatePendingProjectiles();
       
       if ( avatar != nullptr ) {
 	

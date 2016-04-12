@@ -20,7 +20,7 @@ namespace WizardOfGalicia {
     std::string readMap( int level );
     GameResult runGame( IRenderer *renderer, int level );
     void update();
-
+    void updatePendingProjectiles();
     std::shared_ptr<CActor> getActorAt( const Vec2i& position );
     void putAt( const Vec2i& position, std::shared_ptr<CActor> actor );
 
