@@ -32,6 +32,15 @@ namespace WizardOfGalicia {
     stream << "\x1B[2J\x1B[H";
   }
   
+
+  char CConsoleRenderer::update() {
+    char toReturn;
+
+    std::cin >> toReturn;
+
+    return toReturn;
+  }
+
   void CConsoleRenderer::drawMap( CMap &map, std::shared_ptr<CActor> current ) {
     
     clear( std::cout );

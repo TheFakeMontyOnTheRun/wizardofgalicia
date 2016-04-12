@@ -88,6 +88,16 @@ namespace WizardOfGalicia {
       }    
     }
   }
+
+
+  void CGame::updatePendingProjectiles() {
+    for( auto actor : map->actors ) {
+      if ( actor->view == '*' ) {
+	actor->update( map );
+      }
+    }
+  }
+
   
   GameResult CGame::runGame( IRenderer *renderer, int level ) {
     
@@ -103,13 +113,14 @@ namespace WizardOfGalicia {
     while ( true ) {
       
       renderer->drawMap( *map, avatar );
-      
+      entry = renderer->update();
+
       if ( avatar != nullptr &&  avatar->hp <= 0 ) {
 	std::cout << "DEAD" << std::endl;
 	avatar = nullptr;
       }
       
-      std::cin >> entry;
+      updatePendingProjectiles();
       
       if ( avatar != nullptr ) {
 	
