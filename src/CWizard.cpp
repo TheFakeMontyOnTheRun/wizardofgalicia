@@ -16,7 +16,9 @@ namespace WizardOfGalicia {
   }
 
   void CWizard::update(std::shared_ptr<CMap> map) {
-    magicEnergy += ( magicEnergy / abs( magicEnergy ) );
+    if ( abs( magicEnergy ) > 0.0f ) {
+      magicEnergy += ( magicEnergy / abs( magicEnergy ) );
+    }
   }
 
   void CWizard::turnLeft() {
