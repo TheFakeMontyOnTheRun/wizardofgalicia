@@ -62,6 +62,10 @@ namespace WizardOfGalicia {
 	  return 'o';
 	case SDLK_SPACE:
 	  return 'f';
+	case SDLK_COMMA:
+	  return '<';
+	case SDLK_PERIOD:
+	  return '>';
 	}
       }
     }

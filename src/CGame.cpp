@@ -158,6 +158,21 @@ namespace WizardOfGalicia {
 	    shouldEndTurn = true;
 	    map->move( avatar->direction, avatar );
 	  }
+
+
+	  if ( entry == "<" ) {
+	    shouldEndTurn = true;
+	    avatar->turnLeft();
+	    map->move( avatar->direction, avatar );
+	    avatar->turnRight();
+	  }
+
+	  if ( entry == ">" ) {
+	    shouldEndTurn = true;
+	    avatar->turnRight();
+	    map->move( avatar->direction, avatar );
+	    avatar->turnLeft();
+	  }
 	  
 	  if ( entry == "p" ) {
 	    avatar->turnRight();
