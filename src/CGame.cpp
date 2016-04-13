@@ -65,7 +65,7 @@ namespace WizardOfGalicia {
   }
 
   void CGame::putAt( const Vec2i& position, std::shared_ptr<CActor> actor ) {
-    map->map[ actor->position.y ][ actor->position.x ] = actor;
+    map->map[ position.y ][ position.x ] = actor;
   }
 
   void CGame::update() {
@@ -97,7 +97,9 @@ namespace WizardOfGalicia {
     needAnotherPass = false;
     for( auto actor : map->actors ) {
       if ( actor->view == '*' ) {
+	putAt( actor->position, nullptr );
 	actor->update( map );
+	putAt( actor->position, actor );
 	needAnotherPass = needAnotherPass || ( actor->hp > 0 );
       }
     }

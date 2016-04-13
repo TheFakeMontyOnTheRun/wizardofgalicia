@@ -3,7 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <memory>
-
+#include <map>
 #include <SDL/SDL.h>
 
 #include "Vec2i.h"

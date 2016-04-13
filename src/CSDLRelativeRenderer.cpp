@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-
+#include <map>
 #include <SDL/SDL.h>
 
 #include "Vec2i.h"
@@ -19,6 +19,19 @@ namespace WizardOfGalicia {
   void CSDLRelativeRenderer::init() {
     SDL_Init(  SDL_INIT_EVERYTHING );
     video = SDL_SetVideoMode( 64, 64, 24, 0 );
+
+    sprites['*'] = SDL_LoadBMP("res/fireball.bmp");
+    sprites['#'] = SDL_LoadBMP("res/wall.bmp");
+
+    sprites['^'] = SDL_LoadBMP("res/facingN.bmp");
+    sprites['>'] = SDL_LoadBMP("res/facingE.bmp");
+    sprites['<'] = SDL_LoadBMP("res/facingW.bmp");
+    sprites['V'] = SDL_LoadBMP("res/facingS.bmp");
+
+    sprites['@'] = SDL_LoadBMP("res/monster.bmp");
+
+    sprites['B'] = SDL_LoadBMP("res/door.bmp");
+    sprites['&'] = SDL_LoadBMP("res/jewel.bmp");
   }
 
   void CSDLRelativeRenderer::shutdown() {
@@ -80,35 +93,37 @@ namespace WizardOfGalicia {
 	  continue;
 	}
 
-	
-
 	rect.x = screenX * 8;
 	rect.y = screenY * 8;
 	rect.w = 8;
 	rect.h = 8;
 	
+	char toRender = '.';
+
+	for ( auto doorway : map.mDoorways ) {
+	  if ( doorway->position.x == x && doorway->position.y == y ) {
+	    toRender = doorway->view;
+	    color = 0xFFFFFF;
+	    toRender = 'B';
+	  }
+	}
+
+	if ( map.block[ y ][ x ] ) {
+	  color = 0x00FF00;
+	  toRender = '#';
+	}
+
 	if ( map.map[ y ][ x ] != nullptr && map.map[ y ][ x ]->hp > 0 ) {
-	  if ( map.map[ y ][ x ] == current && current != nullptr ) {
-	    color = 0xFFFF00;
-	  } else {
-	    color = 0xFF0000;
-	  }
-	} else {
-	  if ( map.block[ y ][ x ] ) {
-	    color = 0x00FF00;
-	  } else {
-	    color = 0x0;
-	    char toRender = '.';
-	    for ( auto doorway : map.mDoorways ) {
-	      if ( doorway->position.x == x && doorway->position.y == y ) {
-		toRender = doorway->view;
-		color = 0xFFFFFF;
-	      }
-	    }
-	  }
+	  toRender = map.map[ y ][ x ]->view;
 	} 
 
-	SDL_FillRect( video, &rect, color );
+	auto bitmap = sprites[ toRender ];
+
+	if ( bitmap != nullptr ) {
+	  SDL_BlitSurface( bitmap, nullptr, video, &rect);
+	} else {
+	  SDL_FillRect( video, &rect, color );
+	}
       }
       ++screenY;
     }   
