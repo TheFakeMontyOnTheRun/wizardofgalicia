@@ -90,12 +90,19 @@ namespace WizardOfGalicia {
   }
 
 
-  void CGame::updatePendingProjectiles() {
+  bool CGame::updatePendingProjectiles() {
+    bool needAnotherPass = true;
+
+
+    needAnotherPass = false;
     for( auto actor : map->actors ) {
       if ( actor->view == '*' ) {
 	actor->update( map );
+	needAnotherPass = needAnotherPass || ( actor->hp > 0 );
       }
     }
+    
+    return needAnotherPass;
   }
 
   
@@ -119,65 +126,68 @@ namespace WizardOfGalicia {
 	std::cout << "DEAD" << std::endl;
 	avatar = nullptr;
       }
+
+      shouldEndTurn = false;
       
-      updatePendingProjectiles();
+      if ( !updatePendingProjectiles() ) {
       
-      if ( avatar != nullptr ) {
-	
-	if ( entry == "s" ) {
-	  map->move( Direction::E, avatar );
-	  shouldEndTurn = true;
-	}
-	
-	if ( entry == "w" ) {
-	  map->move( Direction::N, avatar );
-	  shouldEndTurn = true;
-	}
-	
-	if ( entry == "a" ) {
-	  map->move( Direction::W, avatar );
-	  shouldEndTurn = true;
-	}
-
-	if ( entry == "i" ) {
-	  avatar->turnLeft();
-	}
-
-	if ( entry == "o" ) {
-	  shouldEndTurn = true;
-	  map->move( avatar->direction, avatar );
-	}
-	
-	if ( entry == "p" ) {
-	  avatar->turnRight();
-	}
-
-	if ( entry == "k" ) {
+	if ( avatar != nullptr ) {
 	  
-	}
-
-	if ( entry == "l" ) {
-	}
-
-	if ( entry == "end" ) {
-	  return GameResult::PlayerHasDied;
-	}
-
-	if ( entry == "win" ) {
-	  return GameResult::PlayerHasFinishedLevel;
-	}
-
-	if ( entry == "f" ) {
-	  map->cast( avatar );
-	  shouldEndTurn = true;
-	}
-
-	if ( entry == "z" ) {
-	  map->move( Direction::S, avatar );
-	}
-	
-	if ( entry == "t" ) {
-	  shouldEndTurn = true;
+	  if ( entry == "s" ) {
+	    map->move( Direction::E, avatar );
+	    shouldEndTurn = true;
+	  }
+	  
+	  if ( entry == "w" ) {
+	    map->move( Direction::N, avatar );
+	    shouldEndTurn = true;
+	  }
+	  
+	  if ( entry == "a" ) {
+	    map->move( Direction::W, avatar );
+	    shouldEndTurn = true;
+	  }
+	  
+	  if ( entry == "i" ) {
+	    avatar->turnLeft();
+	  }
+	  
+	  if ( entry == "o" ) {
+	    shouldEndTurn = true;
+	    map->move( avatar->direction, avatar );
+	  }
+	  
+	  if ( entry == "p" ) {
+	    avatar->turnRight();
+	  }
+	  
+	  if ( entry == "k" ) {
+	    
+	  }
+	  
+	  if ( entry == "l" ) {
+	  }
+	  
+	  if ( entry == "end" ) {
+	    return GameResult::PlayerHasDied;
+	  }
+	  
+	  if ( entry == "win" ) {
+	    return GameResult::PlayerHasFinishedLevel;
+	  }
+	  
+	  if ( entry == "f" ) {
+	    map->cast( avatar );
+	    shouldEndTurn = true;
+	  }
+	  
+	  if ( entry == "z" ) {
+	    map->move( Direction::S, avatar );
+	  }
+	  
+	  if ( entry == "t" ) {
+	    shouldEndTurn = true;
+	  }
 	}
 
 	if ( shouldEndTurn ) {
