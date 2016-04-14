@@ -32,6 +32,7 @@ namespace WizardOfGalicia {
 
     sprites['B'] = SDL_LoadBMP("res/door.bmp");
     sprites['&'] = SDL_LoadBMP("res/jewel.bmp");
+    sprites['W'] = SDL_LoadBMP("res/boss.bmp");
   }
 
   void CSDLRelativeRenderer::shutdown() {

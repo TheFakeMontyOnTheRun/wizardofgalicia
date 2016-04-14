@@ -11,6 +11,7 @@
 #include "CMap.h"
 #include "CWizard.h"
 #include "CCuco.h"
+#include "CBaphomet.h"
 #include "CFireball.h"
 #include "CRelic.h"
 
@@ -69,6 +70,9 @@ namespace WizardOfGalicia {
 	  break;
 	case '$':
 	  actor = std::make_shared<CRelic>();
+	  break;
+	case 'w':
+	  actor = std::make_shared<CBaphomet>();
 	  break;
 	case '9':
 	case '*':
