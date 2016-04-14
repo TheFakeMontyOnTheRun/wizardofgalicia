@@ -103,128 +103,145 @@ namespace WizardOfGalicia {
     return needAnotherPass;
   }
 
+  IRenderer *renderer;
+
   
-  GameResult CGame::runGame( IRenderer *renderer, int level ) {
-    
-    turn = 1;
+  GameResult CGame::tick() {
     bool shouldEndTurn = false;
-    std::string entry;
-    std::string mapData =  readMap( level );
-    
-    map = std::make_shared<CMap>( mapData );
-    
+    std::string entry;    
     std::shared_ptr<CActor> avatar = map->mWizard;
     
-    while ( true ) {
+    
+    renderer->drawMap( *map, avatar );
+    entry = renderer->update();
+    
+    if ( avatar != nullptr &&  avatar->hp <= 0 ) {
+      std::cout << "DEAD" << std::endl;
+      avatar = nullptr;
+    }
+    
+    shouldEndTurn = false;
+    
+    if ( !updatePendingProjectiles() ) {
       
-      renderer->drawMap( *map, avatar );
-      entry = renderer->update();
-
-      if ( avatar != nullptr &&  avatar->hp <= 0 ) {
-	std::cout << "DEAD" << std::endl;
-	avatar = nullptr;
-      }
-
-      shouldEndTurn = false;
-      
-      if ( !updatePendingProjectiles() ) {
-      
-	if ( avatar != nullptr ) {
-	  
-	  if ( entry == "s" ) {
-	    map->move( Direction::E, avatar );
-	    shouldEndTurn = true;
-	  }
-	  
-	  if ( entry == "w" ) {
-	    map->move( Direction::N, avatar );
-	    shouldEndTurn = true;
-	  }
-	  
-	  if ( entry == "a" ) {
-	    map->move( Direction::W, avatar );
-	    shouldEndTurn = true;
-	  }
-	  
-	  if ( entry == "i" ) {
-	    avatar->turnLeft();
-	  }
-	  
-	  if ( entry == "o" ) {
-	    shouldEndTurn = true;
-	    map->move( avatar->direction, avatar );
-	  }
-
-
-	  if ( entry == "<" ) {
-	    shouldEndTurn = true;
-	    avatar->turnLeft();
-	    map->move( avatar->direction, avatar );
-	    avatar->turnRight();
-	  }
-
-	  if ( entry == ">" ) {
-	    shouldEndTurn = true;
-	    avatar->turnRight();
-	    map->move( avatar->direction, avatar );
-	    avatar->turnLeft();
-	  }
-	  
-	  if ( entry == "p" ) {
-	    avatar->turnRight();
-	  }
-	  
-	  if ( entry == "k" ) {
-	    
-	  }
-	  
-	  if ( entry == "l" ) {
-	  }
-	  
-	  if ( entry == "end" ) {
-	    return GameResult::PlayerHasDied;
-	  }
-	  
-	  if ( entry == "win" ) {
-	    return GameResult::PlayerHasFinishedLevel;
-	  }
-	  
-	  if ( entry == "f" ) {
-	    map->cast( avatar );
-	    shouldEndTurn = true;
-	  }
-	  
-	  if ( entry == "z" ) {
-	    map->move( Direction::S, avatar );
-	  }
-	  
-	  if ( entry == "t" ) {
-	    shouldEndTurn = true;
-	  }
+      if ( avatar != nullptr ) {
+	
+	if ( entry == "s" ) {
+	  map->move( Direction::E, avatar );
+	  shouldEndTurn = true;
 	}
-
-	if ( shouldEndTurn ) {
-	  update();
-	  endOfTurn();
-	  shouldEndTurn = false;
+	
+	if ( entry == "w" ) {
+	  map->move( Direction::N, avatar );
+	  shouldEndTurn = true;
 	}
-
-	if ( playerIsDead( avatar ) ) {
+	
+	if ( entry == "a" ) {
+	  map->move( Direction::W, avatar );
+	  shouldEndTurn = true;
+	}
+	
+	if ( entry == "i" ) {
+	  avatar->turnLeft();
+	}
+	
+	if ( entry == "o" ) {
+	  shouldEndTurn = true;
+	  map->move( avatar->direction, avatar );
+	}
+	
+	
+	if ( entry == "<" ) {
+	  shouldEndTurn = true;
+	  avatar->turnLeft();
+	  map->move( avatar->direction, avatar );
+	  avatar->turnRight();
+	}
+	
+	if ( entry == ">" ) {
+	  shouldEndTurn = true;
+	  avatar->turnRight();
+	  map->move( avatar->direction, avatar );
+	  avatar->turnLeft();
+	}
+	
+	if ( entry == "p" ) {
+	  avatar->turnRight();
+	  }
+	
+	if ( entry == "k" ) {
+	  
+	}
+	
+	if ( entry == "l" ) {
+	}
+	  
+	if ( entry == "end" ) {
 	  return GameResult::PlayerHasDied;
 	}
-
-	if ( playerHasFinishedLevel( avatar, map ) ) {
+	
+	if ( entry == "win" ) {
 	  return GameResult::PlayerHasFinishedLevel;
 	}
-
-	if ( hasPlayerReturnedToPreviousLevel( avatar, map ) ) {
-	  return GameResult::PlayerHasReturnedALevel;
+	
+	if ( entry == "f" ) {
+	  map->cast( avatar );
+	  shouldEndTurn = true;
+	}
+	
+	if ( entry == "z" ) {
+	  map->move( Direction::S, avatar );
+	}
+	
+	if ( entry == "t" ) {
+	  shouldEndTurn = true;
 	}
       }
+      
+      if ( shouldEndTurn ) {
+	update();
+	endOfTurn();
+	shouldEndTurn = false;
+      }
+      
+      if ( playerIsDead( avatar ) ) {
+	return GameResult::PlayerHasDied;
+      }
+      
+      if ( playerHasFinishedLevel( avatar, map ) ) {
+	return GameResult::PlayerHasFinishedLevel;
+      }
+      
+      if ( hasPlayerReturnedToPreviousLevel( avatar, map ) ) {
+	return GameResult::PlayerHasReturnedALevel;
+      }
     }
-
+    
     return GameResult::UndefinedBehaviour;
   }
+  
+
+
+
+
+  GameResult CGame::runGame( IRenderer *aRenderer, int level ) {
+
+    renderer = aRenderer;
+    
+    turn = 1;
+    std::string mapData =  readMap( level );
+    map = std::make_shared<CMap>( mapData );
+
+
+    while ( true ) {
+      auto result = tick();
+      if ( result != GameResult::UndefinedBehaviour ) {
+	return result;
+      }
+    }
+    return GameResult::UndefinedBehaviour;
+  }
+
 
   bool CGame::playerIsDead( std::shared_ptr<CActor> avatar ) {
     return avatar->hp <= 0;

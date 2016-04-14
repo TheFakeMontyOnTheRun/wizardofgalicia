@@ -22,7 +22,7 @@ namespace WizardOfGalicia {
     void update();
     bool updatePendingProjectiles();
     void putAt( const Vec2i& position, std::shared_ptr<CActor> actor );
-
+    GameResult tick();
     bool playerIsDead( std::shared_ptr<CActor> avatar );
     bool playerHasFinishedLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map );
     bool hasPlayerReturnedToPreviousLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map );
