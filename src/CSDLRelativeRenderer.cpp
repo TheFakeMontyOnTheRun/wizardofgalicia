@@ -74,6 +74,64 @@ namespace WizardOfGalicia {
     return '.';
   }
 
+  void castLight( Direction from, int lightMap[][20], int emission, CMap &map, const Vec2i position ) {
+
+    if ( emission <= 1 ) {
+      return;
+    }
+
+    if ( !map.isValid(position.x, position.y) ) {
+      return;
+    }
+
+    if (map.isBlockAt( position.x, position.y ) ) {
+      return;
+    }
+
+    lightMap[ position.y ][ position.x ] += emission;
+
+    if ( lightMap[ position.y ][ position.x ] > 255 ) {
+      lightMap[ position.y ][ position.x ] = 255;    
+    }
+
+    Vec2i newPosition;
+
+    newPosition = Vec2i{ position.x, position.y - 1 };
+    if ( map.getActorAt( newPosition ) == nullptr ) {
+      castLight( Direction::N, lightMap, emission / ( from == Direction::N ? 4 : 8 ), map, newPosition );
+    } 
+    
+    newPosition = Vec2i{ position.x - 1, position.y };
+    if ( map.getActorAt( newPosition ) == nullptr ) {
+      castLight( Direction::W, lightMap, emission / ( from == Direction::W ? 4 : 8 ), map, newPosition ); 
+    }
+
+    newPosition = Vec2i{ position.x, position.y + 1 };
+    if ( map.getActorAt( newPosition ) == nullptr ) {
+      castLight( Direction::S, lightMap, emission / ( from == Direction::S ? 4 : 8 ), map, newPosition ); 
+    }
+
+    newPosition = Vec2i{ position.x + 1, position.y };
+    if ( map.getActorAt( newPosition ) == nullptr ) {
+      castLight( Direction::E, lightMap, emission / ( from == Direction::E ? 4 : 8 ), map, newPosition ); 
+    }
+  }
+
+
+  bool isLitAt( int x, int y, int lightMap[][20], CMap& map ) {
+    return 
+      ( map.isValid( x - 1, y ) && lightMap[ y ][ x - 1 ] > 0 ) || 
+      ( map.isValid( x + 1, y ) && lightMap[ y ][ x + 1 ] > 0 ) || 
+      ( map.isValid( x, y + 1 ) && lightMap[ y + 1 ][ x ] > 0 ) || 
+      ( map.isValid( x, y - 1 ) && lightMap[ y - 1 ][ x ] > 0 ) || 
+
+      ( map.isValid( x + 1, y + 1) && lightMap[ y + 1][ x + 1] > 0 ) || 
+      ( map.isValid( x + 1, y - 1) && lightMap[ y - 1][ x + 1] > 0 ) || 
+      ( map.isValid( x - 1, y - 1 ) && lightMap[ y - 1 ][ x - 1] > 0 ) || 
+      ( map.isValid( x - 1, y + 1) && lightMap[ y + 1][ x - 1] > 0 ) || 
+      (false)
+      ;
+  } 
   
   void CSDLRelativeRenderer::drawMap( CMap &map, std::shared_ptr<CActor> current ) {
     
@@ -86,6 +144,20 @@ namespace WizardOfGalicia {
     rect.y = 64;
 
     SDL_FillRect( video, &rect, 0 );
+
+    int lightMap[ 20 ][ 20 ];
+
+    for ( int y = 0; y < 20; ++y ) {
+      for ( int x = 0; x < 20; ++x ) {
+	lightMap[ y ][ x ] = 0;
+      }
+    }
+
+    for ( auto actor : map.actors ) {
+      for ( int c = 0; c < 4; ++c ) {
+	castLight( static_cast<Direction>(c), lightMap, actor->emission, map, actor->position );
+      }
+    }
 
     int screenX = 0;
     int screenY = 0;
@@ -124,9 +196,10 @@ namespace WizardOfGalicia {
 
 	auto bitmap = sprites[ toRender ];
 
-	if ( bitmap != nullptr ) {
+	if ( bitmap != nullptr && isLitAt( x, y, lightMap, map ) ) {
 	  SDL_BlitSurface( bitmap, nullptr, video, &rect);
 	} else {
+	  color = lightMap [ y ][ x ];
 	  SDL_FillRect( video, &rect, color );
 	}
       }

@@ -7,7 +7,7 @@ namespace WizardOfGalicia {
   public:
     Vec2i position;
     char view;
-    
+    int emission;
     IMapElement();
     virtual void endOfTurn();
   };

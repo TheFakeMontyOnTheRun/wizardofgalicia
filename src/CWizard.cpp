@@ -7,6 +7,7 @@
 
 namespace WizardOfGalicia {
   CWizard::CWizard() : CActor() {
+    emission = 20;
     view = '^';
     team = Team::HEROES;
     hp = 5;
@@ -19,6 +20,8 @@ namespace WizardOfGalicia {
     if ( abs( magicEnergy ) > 0.0f ) {
       magicEnergy += ( magicEnergy / abs( magicEnergy ) );
     }
+
+    emission = abs( magicEnergy );
   }
 
   void CWizard::turnLeft() {

@@ -48,6 +48,10 @@ namespace WizardOfGalicia {
     return x >= 0 && y >= 0 && x < 20 && y < 20;
   }
 
+  std::shared_ptr<CActor> CMap::getActorAt( const Vec2i& position ) {
+    return map[ position.y ][ position.x ];
+  }
+
   CMap::CMap( const std::string &mapData ) {
     
     char element;

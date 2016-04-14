@@ -13,6 +13,8 @@ namespace WizardOfGalicia {
     view = '*';
     team = Team::HEROES;
     hp = 50;
+
+    emission = 255;
     direction = d;
     position = p;
     attack = 10;

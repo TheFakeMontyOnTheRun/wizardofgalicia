@@ -21,7 +21,6 @@ namespace WizardOfGalicia {
     GameResult runGame( IRenderer *renderer, int level );
     void update();
     bool updatePendingProjectiles();
-    std::shared_ptr<CActor> getActorAt( const Vec2i& position );
     void putAt( const Vec2i& position, std::shared_ptr<CActor> actor );
 
     bool playerIsDead( std::shared_ptr<CActor> avatar );

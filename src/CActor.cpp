@@ -6,7 +6,7 @@
 
 namespace WizardOfGalicia {
   CActor::CActor() {
-    
+    emission = 0;
     stance = Stance::STANDING;
     attack = 0;
     defence = 0;

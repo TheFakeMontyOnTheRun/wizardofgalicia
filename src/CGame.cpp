@@ -60,10 +60,6 @@ namespace WizardOfGalicia {
     ++turn;
   }
 
-  std::shared_ptr<CActor> CGame::getActorAt( const Vec2i& position ) {
-    return map->map[ position.y ][ position.x ];
-  }
-
   void CGame::putAt( const Vec2i& position, std::shared_ptr<CActor> actor ) {
     map->map[ position.y ][ position.x ] = actor;
   }
@@ -83,7 +79,7 @@ namespace WizardOfGalicia {
 				       ), map->actors.end() );
   
     for ( auto actor : map->actors ) {
-      if ( getActorAt( actor->position ) == nullptr ) {
+      if (map-> getActorAt( actor->position ) == nullptr ) {
 	putAt( actor->position, actor );
       }    
     }
