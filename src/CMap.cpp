@@ -8,8 +8,8 @@
 #include "IMapElement.h"
 #include "CDoorway.h"
 #include "CActor.h"
-#include "CMap.h"
 #include "CWizard.h"
+#include "CMap.h"
 #include "CCuco.h"
 #include "CBaphomet.h"
 #include "CFireball.h"
@@ -52,7 +52,7 @@ namespace WizardOfGalicia {
     return map[ position.y ][ position.x ];
   }
 
-  CMap::CMap( const std::string &mapData ) {
+  CMap::CMap( const std::string &mapData, std::shared_ptr<CWizard> wizard ) {
     
     char element;
     std::shared_ptr<CActor> actor = nullptr;
@@ -70,7 +70,7 @@ namespace WizardOfGalicia {
 	  block[ y ][ x ] = ( element == '1' );
 	  break;	  
 	case '2':
-	  actor = mWizard = std::make_shared<CWizard>();
+	  actor = mWizard = wizard;
 	  break;
 	case '$':
 	  actor = std::make_shared<CRelic>();

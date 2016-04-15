@@ -9,6 +9,7 @@
 #include "IMapElement.h"
 #include "CActor.h"
 #include "CDoorway.h"
+#include "CWizard.h"
 #include "CMap.h"
 #include "IRenderer.h"
 #include "CSDLRelativeRenderer.h"

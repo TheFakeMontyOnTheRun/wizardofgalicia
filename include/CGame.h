@@ -12,10 +12,10 @@ namespace WizardOfGalicia {
   
   class CGame {
   public:
-
+    CGame();
     int turn;
     std::shared_ptr<CMap> map;
-
+    std::shared_ptr<CWizard> mPlayer;
     void endOfTurn();
     std::string readMap( int level );
     GameResult runGame( IRenderer *renderer, int level );

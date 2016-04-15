@@ -10,19 +10,25 @@
 #include "IMapElement.h"
 #include "CActor.h"
 #include "CDoorway.h"
-#include "CMap.h"
+
+
+
 #include "CDoorway.h"
 #include "CBaphomet.h"
 #include "CCuco.h"
 #include "CDemon.h"
 #include "CMoura.h"
 #include "CWizard.h"
+#include "CMap.h"
 #include "IRenderer.h"
 #include "CConsoleRenderer.h"
 #include "CGame.h"
 #include "CFireball.h"
 
 namespace WizardOfGalicia {
+
+  CGame::CGame() : mPlayer( std::make_shared<CWizard>() ) {
+  }
 
   std::string CGame::readMap( int level ) {
 
@@ -230,7 +236,7 @@ namespace WizardOfGalicia {
     
     turn = 1;
     std::string mapData =  readMap( level );
-    map = std::make_shared<CMap>( mapData );
+    map = std::make_shared<CMap>( mapData, mPlayer );
 
 
     while ( true ) {

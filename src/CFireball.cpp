@@ -6,6 +6,7 @@
 #include "CActor.h"
 #include "CFireball.h"
 #include "CDoorway.h"
+#include "CWizard.h"
 #include "CMap.h"
 
 namespace WizardOfGalicia {

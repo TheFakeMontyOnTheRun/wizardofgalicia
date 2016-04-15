@@ -6,6 +6,7 @@
 #include "IMapElement.h"
 #include "CActor.h"
 #include "CDoorway.h"
+#include "CWizard.h"
 #include "CMap.h"
 #include "CCuco.h"
 

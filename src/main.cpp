@@ -10,10 +10,11 @@
 #include "IMapElement.h"
 #include "CActor.h"
 #include "CDoorway.h"
+#include "CWizard.h"
 #include "CMap.h"
 
 
-#include "CWizard.h"
+
 #include "IRenderer.h"
 #include "CConsoleRenderer.h"
 #include "CSDLRelativeRenderer.h"
