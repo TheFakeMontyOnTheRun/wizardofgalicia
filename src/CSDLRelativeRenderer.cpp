@@ -16,6 +16,29 @@
 
 
 namespace WizardOfGalicia {
+
+  bool waitForFirePressed() {
+    SDL_Event event;
+    
+    if ( SDL_PollEvent( &event ) ) {
+
+      if( event.type == SDL_QUIT ) {
+	exit(0);
+      }
+
+      if ( event.type == SDL_KEYUP ) {
+
+	switch ( event.key.keysym.sym ) {
+	case SDLK_q:
+	  exit(0);
+	case SDLK_SPACE:
+	  return true;
+	}
+      }
+    }
+
+    return false;
+  }
   
   void CSDLRelativeRenderer::init() {
     SDL_Init(  SDL_INIT_EVERYTHING );
@@ -34,6 +57,13 @@ namespace WizardOfGalicia {
     sprites['B'] = SDL_LoadBMP("res/door.bmp");
     sprites['&'] = SDL_LoadBMP("res/jewel.bmp");
     sprites['W'] = SDL_LoadBMP("res/boss.bmp");
+
+    titleScreen = SDL_LoadBMP("res/wog.bmp");
+    gameOverScreen = SDL_LoadBMP("res/gameover.bmp");
+    victoryScreen = SDL_LoadBMP("res/win.bmp");
+
+    waitingForFire = false;
+    showing = nullptr;
   }
 
   void CSDLRelativeRenderer::shutdown() {
@@ -134,10 +164,36 @@ namespace WizardOfGalicia {
       ( map.isValid( x - 1, y + 1) && abs(lightMap[ y + 1][ x - 1]) > 0 ) || 
       (false)
       ;
-  } 
+  }
+
+ 
+
+  void CSDLRelativeRenderer::showTitleScreen() {
+    showing = titleScreen;
+    while( !waitForFirePressed() ) {
+      SDL_BlitSurface( showing, nullptr, video, nullptr );
+      SDL_Flip( video );
+    }
+  }
+
+  void CSDLRelativeRenderer::showGameOverScreen() {
+    showing = gameOverScreen;
+    while( !waitForFirePressed() ) {
+      SDL_BlitSurface( showing, nullptr, video, nullptr );
+      SDL_Flip( video );
+    }
+  }
   
+  void CSDLRelativeRenderer::showVictoryScreen() {
+    showing = victoryScreen;
+    while( !waitForFirePressed() ) {
+      SDL_BlitSurface( showing, nullptr, video, nullptr );
+      SDL_Flip( video );
+    }
+  }
+
   void CSDLRelativeRenderer::drawMap( CMap &map, std::shared_ptr<CActor> current ) {
-    
+
     int color;
     SDL_Rect rect;
 

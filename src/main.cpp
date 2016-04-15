@@ -25,12 +25,12 @@
 int main ( int argc, char **argv ) {
 
   WizardOfGalicia::CGame game; 
-  int level = 1;
+  int level = 2;
 
   auto renderer = new WizardOfGalicia::CSDLRelativeRenderer();
 
   renderer->init();
-
+  renderer->showTitleScreen();
   while ( level > 0 && level <= 2 ) {
     WizardOfGalicia::GameResult result = game.runGame( renderer, level );
 
@@ -39,11 +39,18 @@ int main ( int argc, char **argv ) {
     } else if ( result == WizardOfGalicia::GameResult::PlayerHasReturnedALevel ) {
       --level;
     } else {
+      if ( result == WizardOfGalicia::GameResult::PlayerHasDied ) {
+	renderer->showGameOverScreen();
+      } else {
+
+      }
 
       //should unify shutdown handling.
       return 0;
     }
   }
+
+  renderer->showVictoryScreen();
 
   renderer->shutdown();
   return 0;
