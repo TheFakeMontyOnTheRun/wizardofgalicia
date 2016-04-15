@@ -117,7 +117,6 @@ namespace WizardOfGalicia {
     std::string entry;    
     std::shared_ptr<CActor> avatar = map->mWizard;
     
-    
     renderer->drawMap( *map, avatar );
     entry = renderer->update();
     
@@ -254,10 +253,10 @@ namespace WizardOfGalicia {
   }
   
   bool CGame::playerHasFinishedLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map ) {
-    return map->isAtExit( avatar );
+    return map->isAtExit( avatar ) && map->hasClearedLevel();
   }
 
   bool CGame::hasPlayerReturnedToPreviousLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map ) {
-    return map->isAtEntrance( avatar );
+    return map->isAtEntrance( avatar )&& map->hasClearedLevel();
   }
 }

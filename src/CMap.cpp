@@ -153,6 +153,17 @@ namespace WizardOfGalicia {
     return ( other != nullptr );
   }
 
+  bool CMap::hasClearedLevel() {
+  
+    for ( auto actor : actors ) {
+      if ( actor->hp > 0 && actor->team == Team::VILLAINS ) {
+	return false;
+      }
+    }
+
+    return true;
+  }
+
   bool CMap::isAtExit( std::shared_ptr<CActor> character ) {
     for ( auto doorway : mDoorways ) {
       if ( doorway->doorFunction == DoorwayFunction::Exit && character->position == doorway->position ) {
