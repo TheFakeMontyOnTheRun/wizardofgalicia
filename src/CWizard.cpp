@@ -22,6 +22,8 @@ namespace WizardOfGalicia {
     }
 
     emission = abs( magicEnergy );
+    attack = 4 + abs( magicEnergy );
+    defence = 2 + abs( magicEnergy );
   }
 
   void CWizard::turnLeft() {
