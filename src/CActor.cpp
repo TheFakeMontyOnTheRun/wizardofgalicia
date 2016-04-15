@@ -63,7 +63,7 @@ namespace WizardOfGalicia {
         other->hp -= diff;
     }
 
-    int deltaEnergy = (magicEnergy + other->magicEnergy) / 2;
+    int deltaEnergy = (other->magicEnergy) / 2;
 
     magicEnergy += deltaEnergy;
   }
