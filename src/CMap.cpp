@@ -37,9 +37,11 @@ namespace WizardOfGalicia {
       return;
     }
 
-    actor->magicEnergy -= ( actor->magicEnergy / abs( actor->magicEnergy ) ) * FIREBALL_COST;
+    int energyInvestment = ( actor->magicEnergy / abs( actor->magicEnergy ) ) * FIREBALL_COST;
+    
+    actor->magicEnergy -= energyInvestment;
 
-    auto fireball = std::make_shared<CFireball>( actor->direction, actor->position );
+    auto fireball = std::make_shared<CFireball>( actor->direction, energyInvestment, actor->position );
     map[ actor->position.y ][ actor->position.x ] = fireball;
     actors.push_back(fireball);
   }

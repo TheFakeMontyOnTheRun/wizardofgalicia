@@ -15,7 +15,7 @@ namespace WizardOfGalicia {
   CBaphomet::CBaphomet() : CActor() {
     view = 'W';
     team = Team::VILLAINS;
-    hp = 50;
+    hp = 500;
     attack = 4;
     defence = 1;
     magicEnergy = -50000;

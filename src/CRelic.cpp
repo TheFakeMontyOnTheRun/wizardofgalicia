@@ -21,6 +21,6 @@ namespace WizardOfGalicia {
   }
 
   void CRelic::performAttack( std::shared_ptr<CActor> other) {
-    other->magicEnergy += ( other->magicEnergy / abs( other->magicEnergy ) ) * 10000;
+    other->magicEnergy += ( other->magicEnergy / abs( other->magicEnergy ) ) * 1000;
   }
 }

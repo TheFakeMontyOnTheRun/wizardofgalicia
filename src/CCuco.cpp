@@ -18,7 +18,7 @@ namespace WizardOfGalicia {
     hp = 5;
     attack = 4;
     defence = 1;
-    magicEnergy = -5;
+    magicEnergy = -20;
   }
 
   bool CCuco::dealWith( std::shared_ptr<CMap> map, int x, int y ) {

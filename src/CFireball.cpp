@@ -10,12 +10,11 @@
 #include "CMap.h"
 
 namespace WizardOfGalicia {
-  CFireball::CFireball(Direction d, const Vec2i& p ) : CActor() {
+  CFireball::CFireball(Direction d, int energy, const Vec2i& p ) : CActor() {
     view = '*';
     team = Team::HEROES;
     hp = 50;
-
-    emission = 255;
+    magicEnergy = energy;
     direction = d;
     position = p;
     attack = 10;

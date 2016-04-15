@@ -77,7 +77,7 @@ namespace WizardOfGalicia {
 
   void castLight( Direction from, int lightMap[][20], int emission, CMap &map, const Vec2i position ) {
 
-    if ( emission <= 1 ) {
+    if ( abs( emission ) <= 1 ) {
       return;
     }
 
@@ -91,8 +91,10 @@ namespace WizardOfGalicia {
 
     lightMap[ position.y ][ position.x ] += emission;
 
-    if ( lightMap[ position.y ][ position.x ] > 255 ) {
-      lightMap[ position.y ][ position.x ] = 255;    
+    int power = lightMap[ position.y ][ position.x ];
+
+    if ( abs( power ) > 255 ) {
+      lightMap[ position.y ][ position.x ] = 255 * (power/abs(power));    
     }
 
     Vec2i newPosition;
@@ -121,15 +123,15 @@ namespace WizardOfGalicia {
 
   bool isLitAt( int x, int y, int lightMap[][20], CMap& map ) {
     return 
-      ( map.isValid( x - 1, y ) && lightMap[ y ][ x - 1 ] > 0 ) || 
-      ( map.isValid( x + 1, y ) && lightMap[ y ][ x + 1 ] > 0 ) || 
-      ( map.isValid( x, y + 1 ) && lightMap[ y + 1 ][ x ] > 0 ) || 
-      ( map.isValid( x, y - 1 ) && lightMap[ y - 1 ][ x ] > 0 ) || 
+      ( map.isValid( x - 1, y ) && abs(lightMap[ y ][ x - 1 ]) > 0 ) || 
+      ( map.isValid( x + 1, y ) && abs(lightMap[ y ][ x + 1 ]) > 0 ) || 
+      ( map.isValid( x, y + 1 ) && abs(lightMap[ y + 1 ][ x ]) > 0 ) || 
+      ( map.isValid( x, y - 1 ) && abs(lightMap[ y - 1 ][ x ]) > 0 ) || 
 
-      ( map.isValid( x + 1, y + 1) && lightMap[ y + 1][ x + 1] > 0 ) || 
-      ( map.isValid( x + 1, y - 1) && lightMap[ y - 1][ x + 1] > 0 ) || 
-      ( map.isValid( x - 1, y - 1 ) && lightMap[ y - 1 ][ x - 1] > 0 ) || 
-      ( map.isValid( x - 1, y + 1) && lightMap[ y + 1][ x - 1] > 0 ) || 
+      ( map.isValid( x + 1, y + 1) && abs(lightMap[ y + 1][ x + 1]) > 0 ) || 
+      ( map.isValid( x + 1, y - 1) && abs(lightMap[ y - 1][ x + 1]) > 0 ) || 
+      ( map.isValid( x - 1, y - 1 ) && abs(lightMap[ y - 1 ][ x - 1]) > 0 ) || 
+      ( map.isValid( x - 1, y + 1) && abs(lightMap[ y + 1][ x - 1]) > 0 ) || 
       (false)
       ;
   } 
@@ -156,7 +158,7 @@ namespace WizardOfGalicia {
 
     for ( auto actor : map.actors ) {
       for ( int c = 0; c < 4; ++c ) {
-	castLight( static_cast<Direction>(c), lightMap, actor->emission, map, actor->position );
+	castLight( static_cast<Direction>(c), lightMap, actor->magicEnergy, map, actor->position );
       }
     }
 
@@ -201,6 +203,11 @@ namespace WizardOfGalicia {
 	  SDL_BlitSurface( bitmap, nullptr, video, &rect);
 	} else {
 	  color = lightMap [ y ][ x ];
+	  
+	  if ( color < 0 ) {
+	    color = abs( color ) << 16;
+	  }
+
 	  SDL_FillRect( video, &rect, color );
 	}
       }
