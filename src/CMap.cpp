@@ -185,14 +185,14 @@ namespace WizardOfGalicia {
   }
   
   
-  void CMap::move( Direction d, std::shared_ptr<CActor> actor ) {
+  bool CMap::move( Direction d, std::shared_ptr<CActor> actor ) {
     
     if ( actor->canAttack() && attackIfNotFriendly( d, actor, true ) ) {
-      return;
+      return true;
     }
     
     if ( !actor->canMove() ) {
-      return;
+      return false;
     }
     
     
@@ -240,5 +240,7 @@ namespace WizardOfGalicia {
     if ( moved ) {
       actor->onMove();
     }
+
+    return false;
   }
 }

@@ -4,7 +4,7 @@
 #include <memory>
 #include <map>
 #include <SDL/SDL.h>
-
+#include <SDL/SDL_mixer.h>
 #include "Vec2i.h"
 #include "IMapElement.h"
 #include "CActor.h"
@@ -16,6 +16,22 @@
 
 
 namespace WizardOfGalicia {
+
+  Mix_Chunk *meeleeSound;
+  Mix_Chunk *fireballSound;
+  Mix_Chunk *powerUpSound;
+
+  void CSDLRelativeRenderer::playFireballSound() {
+    Mix_PlayChannel( -1, fireballSound, 0 );
+  }
+
+  void CSDLRelativeRenderer::playMeeleeSound() {
+    Mix_PlayChannel( -1, meeleeSound, 0 );
+  }
+  
+  void CSDLRelativeRenderer::playPowerUpSound() {
+    Mix_PlayChannel( -1, powerUpSound, 0 );
+  }
 
   bool waitForFirePressed() {
     SDL_Event event;
@@ -44,6 +60,13 @@ namespace WizardOfGalicia {
     SDL_Init(  SDL_INIT_EVERYTHING );
     video = SDL_SetVideoMode( 64, 64, 24, 0 );
 
+    if ( Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1 ) {
+      std::cout << "coudlnt init mixer" << std::endl;
+    }
+
+    if (Mix_Init(MIX_INIT_OGG) != MIX_INIT_OGG ) {
+      std::cout << "coudlnt init ogg" << std::endl;
+    }
     sprites['*'] = SDL_LoadBMP("res/fireball.bmp");
     sprites['#'] = SDL_LoadBMP("res/wall.bmp");
 
@@ -61,6 +84,22 @@ namespace WizardOfGalicia {
     titleScreen = SDL_LoadBMP("res/wog.bmp");
     gameOverScreen = SDL_LoadBMP("res/gameover.bmp");
     victoryScreen = SDL_LoadBMP("res/win.bmp");
+
+
+    if (!(meeleeSound = Mix_LoadWAV( "res/meelee.wav" ) ) ) {
+      std::cout << "Loading meelee sound failed" << std::endl;
+    }
+    
+    if  ( !(fireballSound = Mix_LoadWAV( "res/fireball.wav" ) )  ) {
+      std::cout << "Loading fireball sound failed" << std::endl;
+    }
+    
+    if ( !(powerUpSound = Mix_LoadWAV( "res/relic.wav" ) )  ) {
+      std::cout << "Loading power up sound failed" << std::endl;
+    }
+    
+
+
 
     waitingForFire = false;
     showing = nullptr;

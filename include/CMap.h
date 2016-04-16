@@ -11,7 +11,7 @@ namespace WizardOfGalicia {
     std::shared_ptr<CActor> mWizard;
 
     CMap( const std::string &data, std::shared_ptr<CWizard> avatar );
-    void move( Direction d, std::shared_ptr<CActor> a );
+    bool move( Direction d, std::shared_ptr<CActor> a );
     bool attackIfNotFriendly( Direction d, std::shared_ptr<CActor> a, bool mutual );
     std::shared_ptr<CActor> getActorAt( const Vec2i& position );
     bool isBlockAt( int x, int y );

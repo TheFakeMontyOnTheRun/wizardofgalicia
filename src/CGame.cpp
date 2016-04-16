@@ -114,6 +114,7 @@ namespace WizardOfGalicia {
   
   GameResult CGame::tick() {
     bool shouldEndTurn = false;
+    bool attackHasHappened = false;
     std::string entry;    
     std::shared_ptr<CActor> avatar = map->mWizard;
     
@@ -132,17 +133,17 @@ namespace WizardOfGalicia {
       if ( avatar != nullptr ) {
 	
 	if ( entry == "s" ) {
-	  map->move( Direction::E, avatar );
+	  attackHasHappened = map->move( Direction::E, avatar );
 	  shouldEndTurn = true;
 	}
 	
 	if ( entry == "w" ) {
-	  map->move( Direction::N, avatar );
+	  attackHasHappened = map->move( Direction::N, avatar );
 	  shouldEndTurn = true;
 	}
 	
 	if ( entry == "a" ) {
-	  map->move( Direction::W, avatar );
+	  attackHasHappened = map->move( Direction::W, avatar );
 	  shouldEndTurn = true;
 	}
 	
@@ -152,21 +153,21 @@ namespace WizardOfGalicia {
 	
 	if ( entry == "o" ) {
 	  shouldEndTurn = true;
-	  map->move( avatar->direction, avatar );
+	  attackHasHappened = map->move( avatar->direction, avatar );
 	}
 	
 	
 	if ( entry == "<" ) {
 	  shouldEndTurn = true;
 	  avatar->turnLeft();
-	  map->move( avatar->direction, avatar );
+	  attackHasHappened = map->move( avatar->direction, avatar );
 	  avatar->turnRight();
 	}
 	
 	if ( entry == ">" ) {
 	  shouldEndTurn = true;
 	  avatar->turnRight();
-	  map->move( avatar->direction, avatar );
+	  attackHasHappened = map->move( avatar->direction, avatar );
 	  avatar->turnLeft();
 	}
 	
@@ -191,6 +192,7 @@ namespace WizardOfGalicia {
 	
 	if ( entry == "f" ) {
 	  map->cast( avatar );
+	  renderer->playFireballSound();
 	  shouldEndTurn = true;
 	}
 	
@@ -203,6 +205,10 @@ namespace WizardOfGalicia {
 	}
       }
       
+      if( attackHasHappened ) {
+	renderer->playMeeleeSound();
+      }
+
       if ( shouldEndTurn ) {
 	update();
 	endOfTurn();

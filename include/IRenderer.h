@@ -4,6 +4,10 @@
 namespace WizardOfGalicia {
   class IRenderer {
   public:
+    virtual void playFireballSound() = 0;
+    virtual void playMeeleeSound() = 0;
+    virtual void playPowerUpSound() = 0;
+
     virtual void init() = 0;
     virtual void drawMap( CMap &map, std::shared_ptr<CActor> current ) = 0;
     virtual char update() = 0;

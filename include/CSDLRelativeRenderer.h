@@ -4,6 +4,8 @@
 namespace WizardOfGalicia {
   class CSDLRelativeRenderer : public IRenderer {
 
+
+
     SDL_Surface *video;
     SDL_Surface *showing;
     SDL_Surface *titleScreen;
@@ -12,6 +14,11 @@ namespace WizardOfGalicia {
     bool waitingForFire;
     std::map<char, SDL_Surface*> sprites;
   public:
+
+    void playFireballSound() override;
+    void playMeeleeSound() override;
+    void playPowerUpSound() override;
+
     void init() override;
     void drawMap( CMap &map, std::shared_ptr<CActor> current ) override;
     void shutdown() override;
