@@ -242,7 +242,7 @@ namespace WizardOfGalicia {
     rect.x = 0;
     rect.y = 0;
     rect.w = 255;
-    rect.y = 255;
+    rect.h = 255;
 
     SDL_FillRect( video, &rect, 0 );
 
@@ -305,9 +305,10 @@ namespace WizardOfGalicia {
 	  alpha = abs( color );
 	  color = abs( color ) << 16;
 	}
+
 	SDL_FillRect( video, &rect, color );
 	
-	if ( bitmap != nullptr && isLitAt( x, y, lightMap, map ) ) {
+	if ( bitmap != nullptr ) { // && isLitAt( x, y, lightMap, map ) ) {
 	  SDL_SetAlpha( bitmap, SDL_SRCALPHA, 128 + ( 255 - alpha ) / 2 );
 	  SDL_BlitSurface( bitmap, nullptr, video, &rect);
 	}
@@ -315,7 +316,17 @@ namespace WizardOfGalicia {
       }
       ++screenY;
     }   
+
     if ( current != nullptr ) {
+
+      rect.w = 32;
+      rect.h = (255 / 16 );
+
+      rect.x = 0;
+      for ( int c = 0; c < 16; ++c ) {
+	rect.y =  ( (16 - c) * (255/16) );
+	SDL_FillRect( video, &rect, ( c < current->hp ) ? ( c * ( 255 / 16 ) ) << 16 : 0x0 );
+      }
     }
 
     SDL_Flip(video);
