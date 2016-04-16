@@ -25,7 +25,7 @@
 int main ( int argc, char **argv ) {
 
   WizardOfGalicia::CGame game; 
-  int level = 2;
+  int level = 1;
 
   auto renderer = new WizardOfGalicia::CSDLRelativeRenderer();
 

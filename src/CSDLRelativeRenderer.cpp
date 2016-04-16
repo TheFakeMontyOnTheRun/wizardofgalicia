@@ -58,7 +58,7 @@ namespace WizardOfGalicia {
   
   void CSDLRelativeRenderer::init() {
     SDL_Init(  SDL_INIT_EVERYTHING );
-    video = SDL_SetVideoMode( 64, 64, 24, 0 );
+    video = SDL_SetVideoMode( 255, 255, 24, 0 );
 
     if ( Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1 ) {
       std::cout << "coudlnt init mixer" << std::endl;
@@ -75,11 +75,14 @@ namespace WizardOfGalicia {
     sprites['<'] = SDL_LoadBMP("res/facingW.bmp");
     sprites['V'] = SDL_LoadBMP("res/facingS.bmp");
 
-    sprites['@'] = SDL_LoadBMP("res/monster.bmp");
+    sprites['@'] = SDL_LoadBMP("res/cuco.bmp");
 
     sprites['B'] = SDL_LoadBMP("res/door.bmp");
     sprites['&'] = SDL_LoadBMP("res/jewel.bmp");
-    sprites['W'] = SDL_LoadBMP("res/boss.bmp");
+    sprites['W'] = SDL_LoadBMP("res/nimph.bmp");
+
+
+    sprites['.'] = SDL_LoadBMP("res/floor.bmp");
 
     titleScreen = SDL_LoadBMP("res/wog.bmp");
     gameOverScreen = SDL_LoadBMP("res/gameover.bmp");
@@ -238,8 +241,8 @@ namespace WizardOfGalicia {
 
     rect.x = 0;
     rect.y = 0;
-    rect.w = 64;
-    rect.y = 64;
+    rect.w = 255;
+    rect.y = 255;
 
     SDL_FillRect( video, &rect, 0 );
 
@@ -268,10 +271,10 @@ namespace WizardOfGalicia {
 	  continue;
 	}
 
-	rect.x = screenX * 8;
-	rect.y = screenY * 8;
-	rect.w = 8;
-	rect.h = 8;
+	rect.x = screenX * 32;
+	rect.y = screenY * 32;
+	rect.w = 32;
+	rect.h = 32;
 	
 	char toRender = '.';
 
@@ -294,17 +297,21 @@ namespace WizardOfGalicia {
 
 	auto bitmap = sprites[ toRender ];
 
-	if ( bitmap != nullptr && isLitAt( x, y, lightMap, map ) ) {
-	  SDL_BlitSurface( bitmap, nullptr, video, &rect);
-	} else {
-	  color = lightMap [ y ][ x ];
-	  
-	  if ( color < 0 ) {
-	    color = abs( color ) << 16;
-	  }
 
-	  SDL_FillRect( video, &rect, color );
+	
+	int alpha = color = lightMap [ y ][ x ];
+	
+	if ( alpha < 0 ) {
+	  alpha = abs( color );
+	  color = abs( color ) << 16;
 	}
+	SDL_FillRect( video, &rect, color );
+	
+	if ( bitmap != nullptr && isLitAt( x, y, lightMap, map ) ) {
+	  SDL_SetAlpha( bitmap, SDL_SRCALPHA, 128 + ( 255 - alpha ) / 2 );
+	  SDL_BlitSurface( bitmap, nullptr, video, &rect);
+	}
+	
       }
       ++screenY;
     }   
