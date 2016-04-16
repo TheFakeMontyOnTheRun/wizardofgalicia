@@ -11,6 +11,8 @@ namespace WizardOfGalicia {
       };
   
   class CGame {
+
+    IRenderer *renderer;
   public:
     CGame();
     int turn;

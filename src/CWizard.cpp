@@ -10,7 +10,7 @@ namespace WizardOfGalicia {
     emission = 20;
     view = '^';
     team = Team::HEROES;
-    hp = 5;
+    hp = 16;
     attack = 4;
     defence = 1;
     magicEnergy = 20;

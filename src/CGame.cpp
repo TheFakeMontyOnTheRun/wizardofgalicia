@@ -108,9 +108,6 @@ namespace WizardOfGalicia {
     
     return needAnotherPass;
   }
-
-  IRenderer *renderer;
-
   
   GameResult CGame::tick() {
     bool shouldEndTurn = false;
@@ -118,6 +115,12 @@ namespace WizardOfGalicia {
     std::string entry;    
     std::shared_ptr<CActor> avatar = map->mWizard;
     
+    int sumOfHps = 0;
+
+    for ( auto actor : map->actors ) {
+      sumOfHps += actor->hp;
+    }
+
     renderer->drawMap( *map, avatar );
     entry = renderer->update();
     
@@ -133,17 +136,17 @@ namespace WizardOfGalicia {
       if ( avatar != nullptr ) {
 	
 	if ( entry == "s" ) {
-	  attackHasHappened = map->move( Direction::E, avatar );
+	  map->move( Direction::E, avatar );
 	  shouldEndTurn = true;
 	}
 	
 	if ( entry == "w" ) {
-	  attackHasHappened = map->move( Direction::N, avatar );
+	  map->move( Direction::N, avatar );
 	  shouldEndTurn = true;
 	}
 	
 	if ( entry == "a" ) {
-	  attackHasHappened = map->move( Direction::W, avatar );
+	  map->move( Direction::W, avatar );
 	  shouldEndTurn = true;
 	}
 	
@@ -153,21 +156,21 @@ namespace WizardOfGalicia {
 	
 	if ( entry == "o" ) {
 	  shouldEndTurn = true;
-	  attackHasHappened = map->move( avatar->direction, avatar );
+	  map->move( avatar->direction, avatar );
 	}
 	
 	
 	if ( entry == "<" ) {
 	  shouldEndTurn = true;
 	  avatar->turnLeft();
-	  attackHasHappened = map->move( avatar->direction, avatar );
+	  map->move( avatar->direction, avatar );
 	  avatar->turnRight();
 	}
 	
 	if ( entry == ">" ) {
 	  shouldEndTurn = true;
 	  avatar->turnRight();
-	  attackHasHappened = map->move( avatar->direction, avatar );
+	  map->move( avatar->direction, avatar );
 	  avatar->turnLeft();
 	}
 	
@@ -205,14 +208,20 @@ namespace WizardOfGalicia {
 	}
       }
       
-      if( attackHasHappened ) {
-	renderer->playMeeleeSound();
-      }
-
       if ( shouldEndTurn ) {
 	update();
 	endOfTurn();
 	shouldEndTurn = false;
+      }
+
+      int otherSumOfHps = 0;
+
+      for ( auto actor : map->actors ) {
+	otherSumOfHps += actor->hp;
+      }
+      
+      if ( otherSumOfHps < sumOfHps ) {
+	renderer->playMeeleeSound();
       }
       
       if ( playerIsDead( avatar ) ) {
