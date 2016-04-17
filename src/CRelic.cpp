@@ -1,4 +1,5 @@
 #include <memory>
+#include <cstdlib>
 
 #include "Vec2i.h"
 #include "IMapElement.h"

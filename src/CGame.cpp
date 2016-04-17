@@ -11,8 +11,6 @@
 #include "CActor.h"
 #include "CDoorway.h"
 
-
-
 #include "CDoorway.h"
 #include "CBaphomet.h"
 #include "CCuco.h"
@@ -24,8 +22,6 @@
 
 #include "CGame.h"
 #include "CFireball.h"
-
-
 
 namespace WizardOfGalicia {
 
@@ -111,6 +107,8 @@ namespace WizardOfGalicia {
     return needAnotherPass;
   }
   
+
+
   GameResult CGame::tick() {
 
     std::shared_ptr<CActor> avatar = map->mWizard;
@@ -255,8 +253,10 @@ namespace WizardOfGalicia {
     return GameResult::UndefinedBehaviour;
   }
   
+
   GameResult CGame::runGame( IRenderer *aRenderer, int aLevel ) {
-    
+
+    game = this;
     renderer = aRenderer;
     level = aLevel;
     turn = 1;
@@ -268,7 +268,6 @@ namespace WizardOfGalicia {
 
     std::string mapData =  readMap( level );
     map = std::make_shared<CMap>( mapData, mPlayer );
-
 
     return tick();
   }

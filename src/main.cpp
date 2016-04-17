@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -18,19 +19,32 @@
 #include "CSDLRelativeRenderer.h"
 #include "CGame.h"
 
-int main ( int argc, char **argv ) {
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
-  WizardOfGalicia::CGame game; 
+WizardOfGalicia::CGame game; 
+
+void gameLoopTick() {
+  game.tick();
+}
+
+int main ( int argc, char **argv ) {
 
   auto renderer = new WizardOfGalicia::CSDLRelativeRenderer();
 
   renderer->init();
+
   renderer->showTitleScreen();
   game.runGame( renderer, 1 );
 
+#ifdef __EMSCRIPTEN__
+  emscripten_set_main_loop( gameLoopTick, 30, 1 );
+#else
   while ( true ) {
-    WizardOfGalicia::GameResult result = game.tick();
+    gameLoopTick();
   }
+#endif
 
   renderer->shutdown();
   return 0;
