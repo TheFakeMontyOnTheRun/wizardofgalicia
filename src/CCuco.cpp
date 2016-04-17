@@ -17,8 +17,8 @@ namespace WizardOfGalicia {
     view = '@';
     team = Team::VILLAINS;
     hp = 5;
-    attack = 4;
-    defence = 1;
+    attack = 5;
+    defence = 2;
     magicEnergy = -20;
   }
 

@@ -7,7 +7,6 @@ namespace WizardOfGalicia {
     std::shared_ptr<CActor> map[ 20 ][ 20 ];
     bool block[ 20 ][ 20 ];
 
-
     std::vector<std::shared_ptr<CActor>> actors;
     std::vector<std::shared_ptr<CDoorway>> mDoorways;
     std::shared_ptr<CActor> mWizard;

@@ -107,8 +107,6 @@ namespace WizardOfGalicia {
     return needAnotherPass;
   }
   
-
-
   GameResult CGame::tick() {
 
     std::shared_ptr<CActor> avatar = map->mWizard;
@@ -128,13 +126,11 @@ namespace WizardOfGalicia {
       sumOfHps += actor->hp;
     }
 
-
     entry = renderer->update();
     
     if ( avatar != nullptr &&  avatar->hp <= 0 ) {
       std::cout << "DEAD" << std::endl;
       renderer->showGameOverScreen();
-      //      avatar = nullptr;
       return GameResult::PlayerHasDied;
     }
     
@@ -187,8 +183,7 @@ namespace WizardOfGalicia {
 	  avatar->turnRight();
 	  }
 	
-	if ( entry == "k" ) {
-	  
+	if ( entry == "k" ) {	  
 	}
 	
 	if ( entry == "l" ) {

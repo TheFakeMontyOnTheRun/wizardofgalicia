@@ -1,5 +1,6 @@
 #include <memory>
 #include <cstdlib>
+#include <iostream>
 
 #include "Vec2i.h"
 #include "IMapElement.h"
@@ -11,9 +12,9 @@ namespace WizardOfGalicia {
     emission = 20;
     view = '^';
     team = Team::HEROES;
-    hp = 10000;
-    attack = 2000;
-    defence = 20000;
+    hp = 16;
+    attack = 5;
+    defence = 4;
     magicEnergy = 20;
   }
 

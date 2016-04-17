@@ -4,8 +4,6 @@
 namespace WizardOfGalicia {
   class CSDLRelativeRenderer : public IRenderer {
 
-
-
     SDL_Surface *video;
     SDL_Surface *showing;
     SDL_Surface *titleScreen;
