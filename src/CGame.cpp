@@ -256,7 +256,6 @@ namespace WizardOfGalicia {
 
   GameResult CGame::runGame( IRenderer *aRenderer, int aLevel ) {
 
-    game = this;
     renderer = aRenderer;
     level = aLevel;
     turn = 1;

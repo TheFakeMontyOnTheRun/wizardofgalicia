@@ -1,5 +1,4 @@
-CXX = em++
-CXXFLAGS = -g  --preload-file res --use-preload-plugins -Iinclude -std=c++1y
+CXX = clang++
 
 SDL_LIB = -L/usr/lib -lSDL -lSDL_gfx -lSDL_image -lSDL_mixer
 SDL_INCLUDE = -I/usr/local/include `sdl-config --cflags --libs`
@@ -10,7 +9,7 @@ LIBS = $(SDL_LIB)
 TARGET = wizard
 
 $(TARGET):	$(OBJS)
-	$(CXX) -o $(TARGET) $(OBJS) $(CXXFLAGS)
+	$(CXX) -o $(TARGET) $(OBJS) $(CXXFLAGS) $(LIBS)
 
 all:   $(TARGET)
 
