@@ -11,6 +11,9 @@
 #include "CActor.h"
 #include "CDoorway.h"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 
 #include "CDoorway.h"
@@ -109,6 +112,8 @@ namespace WizardOfGalicia {
     return needAnotherPass;
   }
   
+
+
   GameResult CGame::tick() {
     bool shouldEndTurn = false;
     bool attackHasHappened = false;
@@ -240,12 +245,14 @@ namespace WizardOfGalicia {
     return GameResult::UndefinedBehaviour;
   }
   
+CGame *game;
 
-
-
+  void gameTick() {
+    game->tick();
+  }
 
   GameResult CGame::runGame( IRenderer *aRenderer, int level ) {
-
+    game = this;
     renderer = aRenderer;
     
     turn = 1;
@@ -253,12 +260,20 @@ namespace WizardOfGalicia {
     map = std::make_shared<CMap>( mapData, mPlayer );
 
 
+#ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop(gameTick, 30, 1);
+  //  if ( result != GameResult::UndefinedBehaviour ) {
+  //return result;
+  //  }
+#else
     while ( true ) {
       auto result = tick();
       if ( result != GameResult::UndefinedBehaviour ) {
 	return result;
       }
     }
+
+#endif
     return GameResult::UndefinedBehaviour;
   }
 

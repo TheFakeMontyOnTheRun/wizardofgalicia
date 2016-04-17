@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -30,7 +31,7 @@ int main ( int argc, char **argv ) {
   auto renderer = new WizardOfGalicia::CSDLRelativeRenderer();
 
   renderer->init();
-  renderer->showTitleScreen();
+  //  renderer->showTitleScreen();
   while ( level > 0 && level <= 2 ) {
     WizardOfGalicia::GameResult result = game.runGame( renderer, level );
 
@@ -40,7 +41,7 @@ int main ( int argc, char **argv ) {
       --level;
     } else {
       if ( result == WizardOfGalicia::GameResult::PlayerHasDied ) {
-	renderer->showGameOverScreen();
+	//	renderer->showGameOverScreen();
       } else {
 
       }
@@ -50,7 +51,7 @@ int main ( int argc, char **argv ) {
     }
   }
 
-  renderer->showVictoryScreen();
+  //  renderer->showVictoryScreen();
 
   renderer->shutdown();
   return 0;
