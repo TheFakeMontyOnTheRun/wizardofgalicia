@@ -294,12 +294,13 @@ namespace WizardOfGalicia {
 	rect.h = 32;
 	
 	char toRender = '.';
-
-	for ( auto doorway : map.mDoorways ) {
-	  if ( doorway->position.x == x && doorway->position.y == y ) {
-	    toRender = doorway->view;
-	    color = 0xFFFFFF;
-	    toRender = 'B';
+	if ( map.hasClearedLevel() ) {
+	  for ( auto doorway : map.mDoorways ) {
+	    if ( doorway->position.x == x && doorway->position.y == y ) {
+	      toRender = doorway->view;
+	      color = 0xFFFFFF;
+	      toRender = 'B';
+	    }
 	  }
 	}
 
