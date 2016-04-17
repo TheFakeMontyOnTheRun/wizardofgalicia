@@ -21,6 +21,7 @@
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
+#include <emscripten/html5.h>
 #endif
 
 WizardOfGalicia::CGame game; 
@@ -39,10 +40,12 @@ int main ( int argc, char **argv ) {
   game.runGame( renderer, 1 );
 
 #ifdef __EMSCRIPTEN__
+  //  emscripten_request_fullscreen(0, 1);
   emscripten_set_main_loop( gameLoopTick, 30, 1 );
 #else
   while ( true ) {
     gameLoopTick();
+    SDL_Delay(33);
   }
 #endif
 

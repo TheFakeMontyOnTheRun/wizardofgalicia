@@ -58,7 +58,7 @@ namespace WizardOfGalicia {
   
   void CSDLRelativeRenderer::init() {
     SDL_Init(  SDL_INIT_EVERYTHING );
-    video = SDL_SetVideoMode( 255, 255, 24, 0 );
+    video = SDL_SetVideoMode( 255, 255, 32, 0 );
 
     if ( Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1 ) {
       std::cout << "coudlnt init mixer" << std::endl;
@@ -101,15 +101,11 @@ namespace WizardOfGalicia {
       std::cout << "Loading power up sound failed" << std::endl;
     }
     
-
-
-
     waitingForFire = false;
     showing = nullptr;
   }
 
   void CSDLRelativeRenderer::shutdown() {
-    //    SDL_Free(video);
     SDL_Quit();
   }
 
@@ -212,28 +208,16 @@ namespace WizardOfGalicia {
 
   void CSDLRelativeRenderer::showTitleScreen() {
     showing = titleScreen;
-    //    while( !waitForFirePressed() ) {
-    ///SDL_BlitSurface( showing, nullptr, video, nullptr );
-    //      SDL_Flip( video );
-    //    }
     waitingForFire = true;
   }
 
   void CSDLRelativeRenderer::showGameOverScreen() {
     showing = gameOverScreen;
-    //    while( !waitForFirePressed() ) {
-    //      SDL_BlitSurface( showing, nullptr, video, nullptr );
-    //      SDL_Flip( video );
-    //    }
     waitingForFire = true;
   }
   
   void CSDLRelativeRenderer::showVictoryScreen() {
     showing = victoryScreen;
-    //    while( !waitForFirePressed() ) {
-    //      SDL_BlitSurface( showing, nullptr, video, nullptr );
-    //      SDL_Flip( video );
-    //    }
     waitingForFire = true;
   }
 
@@ -261,8 +245,17 @@ namespace WizardOfGalicia {
     rect.w = 255;
     rect.h = 255;
 
-    SDL_FillRect( video, &rect, 0 );
+    SDL_FillRect( video, &rect, SDL_MapRGBA(video->format, 0, 0, 0, 255 ) );
 
+    rect.w = 32;
+    rect.h = (255 / 16 );
+    
+    rect.x = 0;
+    for ( int c = 0; c < 16; ++c ) {
+      rect.y =  ( (16 - c) * (255/16) );
+      SDL_FillRect( video, &rect, SDL_MapRGBA( video->format, ( c < current->hp ) ? ( c * (255/16) )  : 0x0, 0,0, 255 ) );
+    }
+    
     int lightMap[ 20 ][ 20 ];
 
     for ( int y = 0; y < 20; ++y ) {
@@ -315,39 +308,22 @@ namespace WizardOfGalicia {
 
 	auto bitmap = sprites[ toRender ];
 
-
-	
 	int alpha = color = lightMap [ y ][ x ];
 	
 	if ( alpha < 0 ) {
 	  alpha = abs( color );
-	  color = abs( color ) << 16;
 	}
 
-	SDL_FillRect( video, &rect, color );
+	SDL_FillRect( video, &rect, SDL_MapRGBA( video->format, color < 0 ? 255 : 0, 0, color > 0 ? 255 : 0, alpha ) );
 	
-	if ( bitmap != nullptr ) { // && isLitAt( x, y, lightMap, map ) ) {
+	if ( bitmap != nullptr ) {
 	  SDL_SetAlpha( bitmap, SDL_SRCALPHA, 128 + ( 255 - alpha ) / 2 );
 	  SDL_BlitSurface( bitmap, nullptr, video, &rect);
 	}
-	
       }
       ++screenY;
     }   
 
-    if ( current != nullptr ) {
-
-      rect.w = 32;
-      rect.h = (255 / 16 );
-
-      rect.x = 0;
-      for ( int c = 0; c < 16; ++c ) {
-	rect.y =  ( (16 - c) * (255/16) );
-	SDL_FillRect( video, &rect, ( c < current->hp ) ? ( c * ( 255 / 16 ) ) << 16 : 0x0 );
-      }
-    }
-
     SDL_Flip(video);
-    //    SDL_Delay( 20 );
   }
 }
