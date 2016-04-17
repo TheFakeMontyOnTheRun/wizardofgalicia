@@ -17,8 +17,8 @@ namespace WizardOfGalicia {
     magicEnergy = energy;
     direction = d;
     position = p;
-    attack = 10;
-    defence = 0;
+    attack = 100;
+    defence = 50;
   }
 
   void CFireball::update(std::shared_ptr<CMap> map) {

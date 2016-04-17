@@ -23,7 +23,7 @@ namespace WizardOfGalicia {
     W
   };
   
-  const int FIREBALL_COST = 5;
+  const int FIREBALL_COST = 150;
 
   class CMap;
 
