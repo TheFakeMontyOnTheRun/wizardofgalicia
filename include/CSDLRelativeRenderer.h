@@ -9,6 +9,7 @@ namespace WizardOfGalicia {
     SDL_Surface *titleScreen;
     SDL_Surface *gameOverScreen;
     SDL_Surface *victoryScreen;
+    SDL_Surface *instructionsScreen;
     bool waitingForFire;
     std::map<char, SDL_Surface*> sprites;
   public:
@@ -24,6 +25,7 @@ namespace WizardOfGalicia {
     void showTitleScreen() override;
     void showGameOverScreen() override;
     void showVictoryScreen() override;
+    void showInstructionsScreen() override;
   };
 }
 #endif

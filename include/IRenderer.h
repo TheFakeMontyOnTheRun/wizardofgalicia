@@ -15,6 +15,7 @@ namespace WizardOfGalicia {
     virtual void showTitleScreen() = 0;
     virtual void showGameOverScreen() = 0;
     virtual void showVictoryScreen() = 0;
+    virtual void showInstructionsScreen() = 0;
   };
 }
 #endif

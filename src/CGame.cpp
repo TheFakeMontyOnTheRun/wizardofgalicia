@@ -65,7 +65,9 @@ namespace WizardOfGalicia {
   }
 
   void CGame::putAt( const Vec2i& position, std::shared_ptr<CActor> actor ) {
-    map->map[ position.y ][ position.x ] = actor;
+    //    if ( map->map[ position.y ][ position.x ] == nullptr ) {
+      map->map[ position.y ][ position.x ] = actor;
+      //    }
   }
 
   void CGame::update() {
@@ -133,6 +135,8 @@ namespace WizardOfGalicia {
       renderer->showGameOverScreen();
       return GameResult::PlayerHasDied;
     }
+
+
     
     shouldEndTurn = false;
     
@@ -183,7 +187,8 @@ namespace WizardOfGalicia {
 	  avatar->turnRight();
 	  }
 	
-	if ( entry == "k" ) {	  
+	if ( entry == "h" ) {	  
+	  renderer->showInstructionsScreen();
 	}
 	
 	if ( entry == "l" ) {
@@ -214,6 +219,12 @@ namespace WizardOfGalicia {
       }
       
       if ( shouldEndTurn ) {
+	//	for ( int y = 0; y < 20; ++y ) {
+	//for ( int x = 0; x < 20; ++x ) {
+	    //	    map->map[ y ][ x ] = nullptr;
+	//	  }
+	//	}
+
 	update();
 	endOfTurn();
 	shouldEndTurn = false;

@@ -87,7 +87,7 @@ namespace WizardOfGalicia {
     titleScreen = SDL_LoadBMP("res/wog.bmp");
     gameOverScreen = SDL_LoadBMP("res/gameover.bmp");
     victoryScreen = SDL_LoadBMP("res/win.bmp");
-
+    instructionsScreen = SDL_LoadBMP( "res/instructions.bmp" );
 
     if (!(meeleeSound = Mix_LoadWAV( "res/meelee.wav" ) ) ) {
       std::cout << "Loading meelee sound failed" << std::endl;
@@ -126,6 +126,8 @@ namespace WizardOfGalicia {
 	  exit(0);
 	case SDLK_LEFT:
 	  return 'i';
+	case SDLK_F1:
+	  return 'h';
 	case SDLK_RIGHT:
 	  return 'p';
 	case SDLK_UP:
@@ -218,6 +220,11 @@ namespace WizardOfGalicia {
   
   void CSDLRelativeRenderer::showVictoryScreen() {
     showing = victoryScreen;
+    waitingForFire = true;
+  }
+
+  void CSDLRelativeRenderer::showInstructionsScreen() {
+    showing = instructionsScreen;
     waitingForFire = true;
   }
 
