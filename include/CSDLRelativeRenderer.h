@@ -14,7 +14,7 @@ namespace WizardOfGalicia {
     bool waitingForFire;
     std::map<char, SDL_Surface*> sprites;
   public:
-
+    bool waitingForKey() override;
     void playFireballSound() override;
     void playMeeleeSound() override;
     void playPowerUpSound() override;

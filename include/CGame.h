@@ -16,6 +16,7 @@ namespace WizardOfGalicia {
   public:
     CGame();
     int turn;
+    int level;
     std::shared_ptr<CMap> map;
     std::shared_ptr<CWizard> mPlayer;
     void endOfTurn();

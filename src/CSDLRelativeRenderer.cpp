@@ -212,29 +212,46 @@ namespace WizardOfGalicia {
 
   void CSDLRelativeRenderer::showTitleScreen() {
     showing = titleScreen;
-    while( !waitForFirePressed() ) {
-      SDL_BlitSurface( showing, nullptr, video, nullptr );
-      SDL_Flip( video );
-    }
+    //    while( !waitForFirePressed() ) {
+    ///SDL_BlitSurface( showing, nullptr, video, nullptr );
+    //      SDL_Flip( video );
+    //    }
+    waitingForFire = true;
   }
 
   void CSDLRelativeRenderer::showGameOverScreen() {
     showing = gameOverScreen;
-    while( !waitForFirePressed() ) {
-      SDL_BlitSurface( showing, nullptr, video, nullptr );
-      SDL_Flip( video );
-    }
+    //    while( !waitForFirePressed() ) {
+    //      SDL_BlitSurface( showing, nullptr, video, nullptr );
+    //      SDL_Flip( video );
+    //    }
+    waitingForFire = true;
   }
   
   void CSDLRelativeRenderer::showVictoryScreen() {
     showing = victoryScreen;
-    while( !waitForFirePressed() ) {
-      SDL_BlitSurface( showing, nullptr, video, nullptr );
-      SDL_Flip( video );
-    }
+    //    while( !waitForFirePressed() ) {
+    //      SDL_BlitSurface( showing, nullptr, video, nullptr );
+    //      SDL_Flip( video );
+    //    }
+    waitingForFire = true;
+  }
+
+  bool CSDLRelativeRenderer::waitingForKey() {
+    return showing != nullptr && waitingForFire;
   }
 
   void CSDLRelativeRenderer::drawMap( CMap &map, std::shared_ptr<CActor> current ) {
+
+    if (waitingForKey() ) {
+      SDL_BlitSurface( showing, nullptr, video, nullptr ) ;
+      SDL_Flip( video );
+
+      waitingForFire = !waitForFirePressed();
+      return;
+    }
+
+    showing = nullptr;
 
     int color;
     SDL_Rect rect;

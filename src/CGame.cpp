@@ -21,9 +21,11 @@
 #include "CWizard.h"
 #include "CMap.h"
 #include "IRenderer.h"
-#include "CConsoleRenderer.h"
+
 #include "CGame.h"
 #include "CFireball.h"
+
+
 
 namespace WizardOfGalicia {
 
@@ -110,23 +112,32 @@ namespace WizardOfGalicia {
   }
   
   GameResult CGame::tick() {
+
+    std::shared_ptr<CActor> avatar = map->mWizard;
+    renderer->drawMap( *map, avatar );    
+
+    if ( renderer->waitingForKey() ) {
+      return GameResult::UndefinedBehaviour;
+    }
+
     bool shouldEndTurn = false;
     bool attackHasHappened = false;
     std::string entry;    
-    std::shared_ptr<CActor> avatar = map->mWizard;
-    
+
     int sumOfHps = 0;
 
     for ( auto actor : map->actors ) {
       sumOfHps += actor->hp;
     }
 
-    renderer->drawMap( *map, avatar );
+
     entry = renderer->update();
     
     if ( avatar != nullptr &&  avatar->hp <= 0 ) {
       std::cout << "DEAD" << std::endl;
-      avatar = nullptr;
+      renderer->showGameOverScreen();
+      //      avatar = nullptr;
+      return GameResult::PlayerHasDied;
     }
     
     shouldEndTurn = false;
@@ -230,10 +241,13 @@ namespace WizardOfGalicia {
       }
       
       if ( playerHasFinishedLevel( avatar, map ) ) {
+	runGame( renderer, ++level );
 	return GameResult::PlayerHasFinishedLevel;
       }
       
       if ( hasPlayerReturnedToPreviousLevel( avatar, map ) ) {
+
+	runGame( renderer, --level );
 	return GameResult::PlayerHasReturnedALevel;
       }
     }
@@ -241,26 +255,22 @@ namespace WizardOfGalicia {
     return GameResult::UndefinedBehaviour;
   }
   
-
-
-
-
-  GameResult CGame::runGame( IRenderer *aRenderer, int level ) {
-
-    renderer = aRenderer;
+  GameResult CGame::runGame( IRenderer *aRenderer, int aLevel ) {
     
+    renderer = aRenderer;
+    level = aLevel;
     turn = 1;
+
+    if ( level > 2 || level <= 0 ) {
+      renderer->showVictoryScreen();
+      return GameResult::PlayerHasFinishedLevel;
+    } 
+
     std::string mapData =  readMap( level );
     map = std::make_shared<CMap>( mapData, mPlayer );
 
 
-    while ( true ) {
-      auto result = tick();
-      if ( result != GameResult::UndefinedBehaviour ) {
-	return result;
-      }
-    }
-    return GameResult::UndefinedBehaviour;
+    return tick();
   }
 
 

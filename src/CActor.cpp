@@ -52,7 +52,7 @@ namespace WizardOfGalicia {
   void CActor::performAttack( std::shared_ptr<CActor> other ) {
     
     if ( abs( magicEnergy ) < abs( other->magicEnergy ) ) {
-      return;
+      //      return;
     }
 
     onAttack();
