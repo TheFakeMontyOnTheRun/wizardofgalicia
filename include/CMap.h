@@ -23,7 +23,7 @@ namespace WizardOfGalicia {
     void endOfTurn();
     bool hasBoss();
     bool hasClearedLevel();
-    void cast( std::shared_ptr<CActor> actor );
+    bool cast( std::shared_ptr<CActor> actor );
     std::shared_ptr<CActor> attack( std::shared_ptr<CActor> actor, int x, int y, bool mutual );
   };
 }

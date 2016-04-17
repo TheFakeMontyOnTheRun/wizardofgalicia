@@ -194,9 +194,10 @@ namespace WizardOfGalicia {
 	}
 	
 	if ( entry == "f" ) {
-	  map->cast( avatar );
-	  renderer->playFireballSound();
-	  shouldEndTurn = true;
+	  if (map->cast( avatar ) ) {
+	    renderer->playFireballSound();
+	    shouldEndTurn = true;
+	  }
 	}
 	
 	if ( entry == "z" ) {

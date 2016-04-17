@@ -31,10 +31,10 @@ namespace WizardOfGalicia {
   }
   
 
-  void CMap::cast( std::shared_ptr<CActor> actor ) {
+  bool CMap::cast( std::shared_ptr<CActor> actor ) {
 
     if ( abs( actor->magicEnergy ) < FIREBALL_COST ) {
-      return;
+      return false;
     }
 
     int energyInvestment = ( actor->magicEnergy / abs( actor->magicEnergy ) ) * FIREBALL_COST;
@@ -44,6 +44,8 @@ namespace WizardOfGalicia {
     auto fireball = std::make_shared<CFireball>( actor->direction, energyInvestment, actor->position );
     map[ actor->position.y ][ actor->position.x ] = fireball;
     actors.push_back(fireball);
+    
+    return true;
   }
   
   bool CMap::isValid( int x, int y ) {
