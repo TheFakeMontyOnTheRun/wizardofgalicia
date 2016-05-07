@@ -25,268 +25,265 @@
 
 namespace WizardOfGalicia {
 
-  CGame::CGame() : mPlayer( std::make_shared<CWizard>() ) {
-  }
-
-  std::string CGame::readMap( int level ) {
-
-    std::cout << "loading level " << level << std::endl;
-    
-    std::string entry;
-
-    std::stringstream levelNameBuilder;
-
-    levelNameBuilder << "res/map";
-    levelNameBuilder << level;
-    levelNameBuilder << ".txt";
-
-    std::ifstream mapFile( levelNameBuilder.str() );
-    
-    char line[ 80 ];
-    
-    while ( !mapFile.eof() ) {
-      mapFile >> line;
-      entry += line;
-    }
-    
-    auto position = entry.find('\n' );
-    
-    while ( position != std::string::npos ) {
-      entry.replace( position, 1, "" );
-      position = entry.find( '\n', position + 1);
-    }
-    
-    return entry;
-  }
-  
-  void CGame::endOfTurn() {    
-    map->endOfTurn();
-    ++turn;
-  }
-
-  void CGame::putAt( const Vec2i& position, std::shared_ptr<CActor> actor ) {
-    //    if ( map->map[ position.y ][ position.x ] == nullptr ) {
-      map->map[ position.y ][ position.x ] = actor;
-      //    }
-  }
-
-  void CGame::update() {
-
-    for ( auto actor : map->actors ) {
-      if ( actor->hp > 0 ) {
-	actor->update(map);
-      } else {
-	map->map[ actor->position.y][actor->position.x] = nullptr;
-      }
-    }
-    
-    map->actors.erase( std::remove_if( map->actors.begin(), map->actors.end(), 
-				       [](std::shared_ptr<CActor> actor){ return actor->hp <= 0;}
-				       ), map->actors.end() );
-  
-    for ( auto actor : map->actors ) {
-      if (map-> getActorAt( actor->position ) == nullptr ) {
-	putAt( actor->position, actor );
-      }    
-    }
-  }
-
-
-  bool CGame::updatePendingProjectiles() {
-    bool needAnotherPass = true;
-
-
-    needAnotherPass = false;
-    for( auto actor : map->actors ) {
-      if ( actor->view == '*' ) {
-	putAt( actor->position, nullptr );
-	actor->update( map );
-	putAt( actor->position, actor );
-	needAnotherPass = needAnotherPass || ( actor->hp > 0 );
-      }
-    }
-    
-    return needAnotherPass;
-  }
-  
-  GameResult CGame::tick() {
-
-    std::shared_ptr<CActor> avatar = map->mWizard;
-    renderer->drawMap( *map, avatar );    
-
-    if ( renderer->waitingForKey() ) {
-      return GameResult::UndefinedBehaviour;
-    }
-
-    bool shouldEndTurn = false;
-    bool attackHasHappened = false;
-    std::string entry;    
-
-    int sumOfHps = 0;
-
-    for ( auto actor : map->actors ) {
-      sumOfHps += actor->hp;
-    }
-
-    entry = renderer->update();
-    
-    if ( avatar != nullptr &&  avatar->hp <= 0 ) {
-      std::cout << "DEAD" << std::endl;
-      renderer->showGameOverScreen();
-      return GameResult::PlayerHasDied;
-    }
-
-
-    
-    shouldEndTurn = false;
-    
-    if ( !updatePendingProjectiles() ) {
-      
-      if ( avatar != nullptr ) {
-	
-	if ( entry == "s" ) {
-	  map->move( Direction::E, avatar );
-	  shouldEndTurn = true;
+	CGame::CGame() : mPlayer(std::make_shared<CWizard>()), map{nullptr} {
 	}
-	
-	if ( entry == "w" ) {
-	  map->move( Direction::N, avatar );
-	  shouldEndTurn = true;
-	}
-	
-	if ( entry == "a" ) {
-	  map->move( Direction::W, avatar );
-	  shouldEndTurn = true;
-	}
-	
-	if ( entry == "i" ) {
-	  avatar->turnLeft();
-	}
-	
-	if ( entry == "o" ) {
-	  shouldEndTurn = true;
-	  map->move( avatar->direction, avatar );
-	}
-	
-	
-	if ( entry == "<" ) {
-	  shouldEndTurn = true;
-	  avatar->turnLeft();
-	  map->move( avatar->direction, avatar );
-	  avatar->turnRight();
-	}
-	
-	if ( entry == ">" ) {
-	  shouldEndTurn = true;
-	  avatar->turnRight();
-	  map->move( avatar->direction, avatar );
-	  avatar->turnLeft();
-	}
-	
-	if ( entry == "p" ) {
-	  avatar->turnRight();
-	  }
-	
-	if ( entry == "h" ) {	  
-	  renderer->showInstructionsScreen();
-	}
-	
-	if ( entry == "l" ) {
-	}
-	  
-	if ( entry == "end" ) {
-	  return GameResult::PlayerHasDied;
-	}
-	
-	if ( entry == "win" ) {
-	  return GameResult::PlayerHasFinishedLevel;
-	}
-	
-	if ( entry == "f" ) {
-	  if (map->cast( avatar ) ) {
-	    renderer->playFireballSound();
-	    shouldEndTurn = true;
-	  }
-	}
-	
-	if ( entry == "z" ) {
-	  map->move( Direction::S, avatar );
-	}
-	
-	if ( entry == "t" ) {
-	  shouldEndTurn = true;
-	}
-      }
-      
-      if ( shouldEndTurn ) {
-	//	for ( int y = 0; y < 20; ++y ) {
-	//for ( int x = 0; x < 20; ++x ) {
-	    //	    map->map[ y ][ x ] = nullptr;
-	//	  }
-	//	}
 
-	update();
-	endOfTurn();
-	shouldEndTurn = false;
-      }
+	std::string CGame::readMap(int level) {
 
-      int otherSumOfHps = 0;
+		std::cout << "loading level " << level << std::endl;
 
-      for ( auto actor : map->actors ) {
-	otherSumOfHps += actor->hp;
-      }
-      
-      if ( otherSumOfHps < sumOfHps ) {
-	renderer->playMeeleeSound();
-      }
-      
-      if ( playerIsDead( avatar ) ) {
-	return GameResult::PlayerHasDied;
-      }
-      
-      if ( playerHasFinishedLevel( avatar, map ) ) {
-	runGame( renderer, ++level );
-	return GameResult::PlayerHasFinishedLevel;
-      }
-      
-      if ( hasPlayerReturnedToPreviousLevel( avatar, map ) ) {
+		std::string entry;
 
-	runGame( renderer, --level );
-	return GameResult::PlayerHasReturnedALevel;
-      }
-    }
-    
-    return GameResult::UndefinedBehaviour;
-  }
-  
+		std::stringstream levelNameBuilder;
 
-  GameResult CGame::runGame( IRenderer *aRenderer, int aLevel ) {
+		levelNameBuilder << "res/map";
+		levelNameBuilder << level;
+		levelNameBuilder << ".txt";
 
-    renderer = aRenderer;
-    level = aLevel;
-    turn = 1;
+		std::ifstream mapFile(levelNameBuilder.str());
 
-    if ( level > 2 || level <= 0 ) {
-      renderer->showVictoryScreen();
-      return GameResult::PlayerHasFinishedLevel;
-    } 
+		char line[80];
 
-    std::string mapData =  readMap( level );
-    map = std::make_shared<CMap>( mapData, mPlayer );
+		while (!mapFile.eof()) {
+			mapFile >> line;
+			entry += line;
+		}
 
-    return tick();
-  }
+		auto position = entry.find('\n');
+
+		while (position != std::string::npos) {
+			entry.replace(position, 1, "");
+			position = entry.find('\n', position + 1);
+		}
+
+		return entry;
+	}
+
+	void CGame::endOfTurn() {
+		map->endOfTurn();
+		++turn;
+	}
+
+	void CGame::putAt(const Vec2i &position, std::shared_ptr<CActor> actor) {
+		//    if ( map->map[ position.y ][ position.x ] == nullptr ) {
+		map->map[position.y][position.x] = actor;
+		//    }
+	}
+
+	void CGame::update() {
+
+		for (auto actor : map->actors) {
+			if (actor->hp > 0) {
+				actor->update(map);
+			} else {
+				map->map[actor->position.y][actor->position.x] = nullptr;
+			}
+		}
+
+		map->actors.erase(std::remove_if(map->actors.begin(), map->actors.end(),
+		                                 [](std::shared_ptr<CActor> actor) {
+			                                 return actor->hp <= 0;
+		                                 }
+		), map->actors.end());
+
+		for (auto actor : map->actors) {
+			if (map->getActorAt(actor->position) == nullptr) {
+				putAt(actor->position, actor);
+			}
+		}
+	}
 
 
-  bool CGame::playerIsDead( std::shared_ptr<CActor> avatar ) {
-    return avatar->hp <= 0;
-  }
-  
-  bool CGame::playerHasFinishedLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map ) {
-    return map->isAtExit( avatar ) && map->hasClearedLevel();
-  }
+	bool CGame::updatePendingProjectiles() {
+		bool needAnotherPass = true;
 
-  bool CGame::hasPlayerReturnedToPreviousLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map ) {
-    return map->isAtEntrance( avatar )&& map->hasClearedLevel();
-  }
+
+		needAnotherPass = false;
+		for (auto actor : map->actors) {
+			if (actor->view == '*') {
+				putAt(actor->position, nullptr);
+				actor->update(map);
+				putAt(actor->position, actor);
+				needAnotherPass = needAnotherPass || (actor->hp > 0);
+			}
+		}
+
+		return needAnotherPass;
+	}
+
+	GameResult CGame::tick() {
+
+		std::shared_ptr<CActor> avatar = map->mWizard;
+		renderer->drawMap(*map, avatar);
+
+		bool shouldEndTurn = false;
+		bool attackHasHappened = false;
+		std::string entry;
+
+		int sumOfHps = 0;
+
+		for (auto actor : map->actors) {
+			sumOfHps += actor->hp;
+		}
+
+		entry = renderer->update();
+
+		if (avatar != nullptr && avatar->hp <= 0) {
+			std::cout << "DEAD" << std::endl;
+			renderer->showGameOverScreen();
+			return GameResult::PlayerHasDied;
+		}
+
+		shouldEndTurn = false;
+
+		if (!updatePendingProjectiles()) {
+
+			if (avatar != nullptr) {
+
+				if (entry == "s") {
+					map->move(Direction::E, avatar);
+					shouldEndTurn = true;
+				}
+
+				if (entry == "w") {
+					map->move(Direction::N, avatar);
+					shouldEndTurn = true;
+				}
+
+				if (entry == "a") {
+					map->move(Direction::W, avatar);
+					shouldEndTurn = true;
+				}
+
+				if (entry == "i") {
+					avatar->turnLeft();
+				}
+
+				if (entry == "o") {
+					shouldEndTurn = true;
+					map->move(avatar->direction, avatar);
+				}
+
+
+				if (entry == "<") {
+					shouldEndTurn = true;
+					avatar->turnLeft();
+					map->move(avatar->direction, avatar);
+					avatar->turnRight();
+				}
+
+				if (entry == ">") {
+					shouldEndTurn = true;
+					avatar->turnRight();
+					map->move(avatar->direction, avatar);
+					avatar->turnLeft();
+				}
+
+				if (entry == "p") {
+					avatar->turnRight();
+				}
+
+				if (entry == "h") {
+					renderer->showInstructionsScreen();
+				}
+
+				if (entry == "l") {
+				}
+
+				if (entry == "end") {
+					return GameResult::PlayerHasDied;
+				}
+
+				if (entry == "win") {
+					return GameResult::PlayerHasFinishedLevel;
+				}
+
+				if (entry == "f") {
+					if (map->cast(avatar)) {
+						renderer->playFireballSound();
+						shouldEndTurn = true;
+					}
+				}
+
+				if (entry == "z") {
+					map->move(Direction::S, avatar);
+				}
+
+				if (entry == "t") {
+					shouldEndTurn = true;
+				}
+			}
+
+			if (shouldEndTurn) {
+				//	for ( int y = 0; y < 20; ++y ) {
+				//for ( int x = 0; x < 20; ++x ) {
+				//	    map->map[ y ][ x ] = nullptr;
+				//	  }
+				//	}
+
+				update();
+				endOfTurn();
+				shouldEndTurn = false;
+			}
+
+			int otherSumOfHps = 0;
+
+			for (auto actor : map->actors) {
+				otherSumOfHps += actor->hp;
+			}
+
+			if (otherSumOfHps < sumOfHps) {
+				renderer->playMeeleeSound();
+			}
+
+			if (playerIsDead(avatar)) {
+				return GameResult::PlayerHasDied;
+			}
+
+			if (playerHasFinishedLevel(avatar, map)) {
+//	runGame( renderer, ++level );
+				return GameResult::PlayerHasFinishedLevel;
+			}
+
+			if (hasPlayerReturnedToPreviousLevel(avatar, map)) {
+
+//	runGame( renderer, --level );
+				return GameResult::PlayerHasReturnedALevel;
+			}
+		}
+
+		return GameResult::UndefinedBehaviour;
+	}
+
+
+	GameResult CGame::runGame(IRenderer *aRenderer, std::string aLevel) {
+
+		renderer = aRenderer;
+		turn = 1;
+
+//    if ( level > 2 || level <= 0 ) {
+//      renderer->showVictoryScreen();
+//      return GameResult::PlayerHasFinishedLevel;
+//    }
+
+		std::string mapData = aLevel;
+		map = std::make_shared<CMap>(mapData, mPlayer);
+		renderer->init(map);
+
+		return tick();
+	}
+
+
+	bool CGame::playerIsDead(std::shared_ptr<CActor> avatar) {
+		return avatar->hp <= 0;
+	}
+
+	bool CGame::playerHasFinishedLevel(std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map) {
+		return map->isAtExit(avatar) && map->hasClearedLevel();
+	}
+
+	bool CGame::hasPlayerReturnedToPreviousLevel(std::shared_ptr<CActor> avatar,
+	                                             std::shared_ptr<CMap> map) {
+		return map->isAtEntrance(avatar) && map->hasClearedLevel();
+	}
 }

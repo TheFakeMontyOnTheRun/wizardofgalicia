@@ -8,7 +8,7 @@ namespace WizardOfGalicia {
     virtual void playMeeleeSound() = 0;
     virtual void playPowerUpSound() = 0;
     virtual bool waitingForKey() = 0;
-    virtual void init() = 0;
+    virtual void init(std::shared_ptr<CMap> map) = 0;
     virtual void drawMap( CMap &map, std::shared_ptr<CActor> current ) = 0;
     virtual char update() = 0;
     virtual void shutdown() = 0;

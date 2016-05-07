@@ -3,6 +3,8 @@
 #include <iostream>
 #include <typeinfo>
 #include <memory>
+#include <cmath>
+
 
 #include "Vec2i.h"
 #include "IMapElement.h"
@@ -33,11 +35,11 @@ namespace WizardOfGalicia {
 
   bool CMap::cast( std::shared_ptr<CActor> actor ) {
 
-    if ( abs( actor->magicEnergy ) < FIREBALL_COST ) {
+    if ( std::abs( actor->magicEnergy ) < FIREBALL_COST ) {
       return false;
     }
 
-    int energyInvestment = ( actor->magicEnergy / abs( actor->magicEnergy ) ) * FIREBALL_COST;
+    int energyInvestment = ( actor->magicEnergy / std::abs( actor->magicEnergy ) ) * FIREBALL_COST;
     
     actor->magicEnergy -= energyInvestment;
 

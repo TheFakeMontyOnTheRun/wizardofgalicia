@@ -16,12 +16,11 @@ namespace WizardOfGalicia {
   public:
     CGame();
     int turn;
-    int level;
     std::shared_ptr<CMap> map;
     std::shared_ptr<CWizard> mPlayer;
     void endOfTurn();
     std::string readMap( int level );
-    GameResult runGame( IRenderer *renderer, int level );
+    GameResult runGame( IRenderer *renderer, std::string level );
     void update();
     bool updatePendingProjectiles();
     void putAt( const Vec2i& position, std::shared_ptr<CActor> actor );
