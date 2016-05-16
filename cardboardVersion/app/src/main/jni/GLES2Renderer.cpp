@@ -483,6 +483,7 @@ namespace odb {
 	}
 
 	void GLES2Renderer::moveBackward() {
+		nextAction = 'z';
 	}
 
 	void GLES2Renderer::turnRight() {
