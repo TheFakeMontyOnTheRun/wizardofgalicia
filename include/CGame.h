@@ -28,6 +28,7 @@ namespace WizardOfGalicia {
     bool playerIsDead( std::shared_ptr<CActor> avatar );
     bool playerHasFinishedLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map );
     bool hasPlayerReturnedToPreviousLevel( std::shared_ptr<CActor> avatar, std::shared_ptr<CMap> map );
+      bool hasPendingProjectiles();
   };
 }
 #endif

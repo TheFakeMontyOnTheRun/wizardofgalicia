@@ -290,4 +290,20 @@ namespace WizardOfGalicia {
 	                                             std::shared_ptr<CMap> map) {
 		return map->isAtEntrance(avatar) && map->hasClearedLevel();
 	}
+
+	bool CGame::hasPendingProjectiles() {
+
+		if ( map == nullptr ) {
+			return false;
+		}
+
+
+		for (auto actor : map->actors) {
+			if (actor->view == '*' && actor->hp > 0 ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

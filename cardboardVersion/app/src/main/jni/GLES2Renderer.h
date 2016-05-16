@@ -116,6 +116,8 @@ namespace odb {
 	    std::shared_ptr<SceneElement> tileMap[ 20 ][ 20 ];
 
 	    glm::mediump_vec3 getVec3For(int x, int y) const;
+
+	    bool needsToRebuildGraphics;
     };
 }
 #endif //LESSON02_GLES2LESSON_H

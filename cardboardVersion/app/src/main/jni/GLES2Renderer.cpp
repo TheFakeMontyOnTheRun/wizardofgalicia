@@ -171,6 +171,7 @@ namespace odb {
 		projectionMatrixAttributePosition = 0;
 		gProgram = 0;
 		nextAction = '.';
+		needsToRebuildGraphics = true;
 		reset();
 	}
 
@@ -252,9 +253,16 @@ namespace odb {
 		setPerspective();
 		resetTransformMatrices();
 
+
+		if ( needsToRebuildGraphics ) {
+			return;
+		}
+
 		glEnable(GL_DEPTH_TEST);
 
 		checkGlError("before drawing");
+
+
 
 
 		glEnableVertexAttribArray(vertexAttributePosition);
@@ -296,6 +304,14 @@ namespace odb {
 	}
 
 	void GLES2Renderer::tick(WizardOfGalicia::CGame &game) {
+
+		needsToRebuildGraphics = needsToRebuildGraphics || game.hasPendingProjectiles();
+
+		if ( !needsToRebuildGraphics ) {
+			return;
+		}
+
+		needsToRebuildGraphics = false;
 
 		if (game.map == nullptr) {
 			return;
@@ -448,6 +464,10 @@ namespace odb {
 
 		char toReturn = nextAction;
 
+		if ( toReturn != '.' ) {
+			needsToRebuildGraphics = true;
+		}
+
 		nextAction = '.';
 
 		return toReturn;
@@ -479,30 +499,37 @@ namespace odb {
 	}
 
 	void GLES2Renderer::moveForward() {
+		needsToRebuildGraphics = true;
 		nextAction = 'o';
 	}
 
 	void GLES2Renderer::moveBackward() {
+		needsToRebuildGraphics = true;
 		nextAction = 'z';
 	}
 
 	void GLES2Renderer::turnRight() {
+		needsToRebuildGraphics = true;
 		nextAction = 'p';
 	}
 
 	void GLES2Renderer::turnLeft() {
+		needsToRebuildGraphics = true;
 		nextAction = 'i';
 	}
 
 	void GLES2Renderer::strafeRight() {
+		needsToRebuildGraphics = true;
 		nextAction = '>';
 	}
 
 	void GLES2Renderer::strageLeft() {
+		needsToRebuildGraphics = true;
 		nextAction = '<';
 	}
 
 	void GLES2Renderer::fire() {
+		needsToRebuildGraphics = true;
 		LOGI( "FIRE" );
 		nextAction = 'f';
 	}
