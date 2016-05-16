@@ -35,6 +35,7 @@ package br.odb.wog;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
+import android.util.AttributeSet;
 import android.util.Log;
 
 import com.google.vrtoolkit.cardboard.CardboardView;
@@ -63,11 +64,21 @@ import javax.microedition.khronos.opengles.GL10;
  * that matches it exactly (with regards to red/green/blue/alpha channels
  * bit depths). Failure to do so would result in an EGL_BAD_MATCH error.
  */
-class GL2JNIView extends CardboardView {
+class GL2JNIView extends GLSurfaceView {
 
     public GL2JNIRenderer render;
+
+    public GL2JNIView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+	    setEGLContextClientVersion(2);
+        render = new GL2JNIRenderer();
+        setRenderer(render);
+
+    }
+
     public GL2JNIView(Context context) {
         super(context);
+	    setEGLContextClientVersion(2);
         render = new GL2JNIRenderer();
         setRenderer(render);
     }
