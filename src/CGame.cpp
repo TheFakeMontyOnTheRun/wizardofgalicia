@@ -206,7 +206,11 @@ namespace WizardOfGalicia {
 				}
 
 				if (entry == "z") {
-					map->move(Direction::S, avatar);
+					avatar->turnLeft();
+					avatar->turnLeft();
+					map->move(avatar->direction, avatar);
+					avatar->turnRight();
+					avatar->turnRight();
 				}
 
 				if (entry == "t") {
