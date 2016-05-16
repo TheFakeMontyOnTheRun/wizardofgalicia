@@ -1,10 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
+              android:orientation="horizontal"
               android:layout_height="match_parent">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="match_parent"
+            android:text="Foward"
+            android:layout_height="wrap_content"
+            android:id="@+id/up"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Left"
+                android:id="@+id/left"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="Right"
+                android:id="@+id/right"/>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Step back"
+            android:id="@+id/down"
+            android:layout_gravity="center_horizontal"/>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Step Left"
+                android:id="@+id/strafeleft"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="Step Right"
+                android:id="@+id/straferight"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
     <br.odb.wog.GL2JNIView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="5"
         android:layout_height="match_parent"
         android:id="@+id/view"/>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_width="match_parent"
+            android:text="Fire"
+            android:layout_height="wrap_content"
+            android:id="@+id/fire"/>
+    </LinearLayout>
 </LinearLayout>

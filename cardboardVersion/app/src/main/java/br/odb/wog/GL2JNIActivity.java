@@ -29,7 +29,7 @@ import com.google.vrtoolkit.cardboard.CardboardActivity;
 
 import java.io.IOException;
 
-public class GL2JNIActivity extends CardboardActivity {
+public class GL2JNIActivity extends Activity {
 
     GL2JNIView mView;
     boolean running = false;
@@ -75,9 +75,59 @@ public class GL2JNIActivity extends CardboardActivity {
         } catch (IOException e) {
         }
 
-        mView = new GL2JNIView(this);
-        mView.setVRModeEnabled( false );
-        setContentView(mView);
+
+		setContentView(R.layout.layout);
+	    mView = (GL2JNIView) findViewById(R.id.view);
+
+	    findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			    GL2JNILib.moveForward();
+		    }
+	    });
+
+	    findViewById(R.id.left).setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			    GL2JNILib.turnLeft();
+		    }
+	    });
+
+	    findViewById(R.id.right).setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			    GL2JNILib.turnRight();
+		    }
+	    });
+
+	    findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			    GL2JNILib.moveBackward();
+		    }
+	    });
+
+	    findViewById(R.id.strafeleft).setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			    GL2JNILib.strafeLeft();
+		    }
+	    });
+
+	    findViewById(R.id.straferight).setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			    GL2JNILib.strafeRight();
+		    }
+	    });
+
+	    findViewById(R.id.fire).setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			    GL2JNILib.fire();
+		    }
+	    });
+
     }
 
     @Override
