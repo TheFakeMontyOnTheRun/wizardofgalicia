@@ -186,6 +186,16 @@ namespace WizardOfGalicia {
 
     return false;
   }
+
+	bool CMap::isDoorAt( int x, int y ) {
+		for ( auto& door : mDoorways ) {
+			if ( door->position.x == x && door->position.y == y) {
+				return true;
+			}
+		}
+
+		return false;
+	}
   
   
   void CMap::move( Direction d, std::shared_ptr<CActor> actor ) {

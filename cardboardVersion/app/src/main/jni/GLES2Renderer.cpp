@@ -388,7 +388,8 @@ namespace odb {
 		for (int y = 0; y < 20; ++y) {
 			for (int x = 0; x < 20; ++x) {
 				bool block = map->isBlockAt(x, y);
-				std::shared_ptr<SceneElement> element = makeQuadElementAt(x, y, block ? '#' : '.');
+				bool isDoor = map->isDoorAt( x, y );
+				std::shared_ptr<SceneElement> element = makeQuadElementAt(x, y, block ? '#' : (isDoor? 'E' : '.') );
 				mSceneElements.push_back(element);
 				tileMap[y][x] = element;
 

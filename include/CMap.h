@@ -23,6 +23,7 @@ namespace WizardOfGalicia {
     bool hasBoss();
     bool hasClearedLevel();
     bool cast( std::shared_ptr<CActor> actor );
+    bool isDoorAt( int x, int y );
     std::shared_ptr<CActor> attack( std::shared_ptr<CActor> actor, int x, int y, bool mutual );
   };
 }
