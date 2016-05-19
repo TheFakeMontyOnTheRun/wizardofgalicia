@@ -22,10 +22,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-
-import com.google.vrtoolkit.cardboard.CardboardActivity;
 
 import java.io.IOException;
 

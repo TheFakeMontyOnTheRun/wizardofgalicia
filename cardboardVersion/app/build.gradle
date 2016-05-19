@@ -67,8 +67,6 @@ model {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':common')
-    compile project(':core')
 }
 
 
