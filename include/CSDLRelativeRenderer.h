@@ -18,7 +18,7 @@ namespace WizardOfGalicia {
     void playMeeleeSound() override;
     void playPowerUpSound() override;
 
-    void init() override;
+    void init(std::shared_ptr<CMap> map) override;
     void drawMap( CMap &map, std::shared_ptr<CActor> current ) override;
     void shutdown() override;
     char update() override;
