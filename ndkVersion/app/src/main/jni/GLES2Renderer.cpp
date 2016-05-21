@@ -248,15 +248,14 @@ namespace odb {
 
 	void GLES2Renderer::render() {
 
+		if ( needsToRebuildGraphics ) {
+			return;
+		}
+
 		clearBuffers();
 		prepareShaderProgram();
 		setPerspective();
 		resetTransformMatrices();
-
-
-		if ( needsToRebuildGraphics ) {
-			return;
-		}
 
 		glEnable(GL_DEPTH_TEST);
 
