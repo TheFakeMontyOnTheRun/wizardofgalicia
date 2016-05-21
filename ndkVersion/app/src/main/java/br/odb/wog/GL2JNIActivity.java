@@ -23,6 +23,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -70,6 +71,9 @@ public class GL2JNIActivity extends Activity {
             });
 
         } catch (IOException e) {
+	        Toast.makeText( this,"failed to load assets", Toast.LENGTH_SHORT ).show();
+	        finish();
+	        return;
         }
 
 
