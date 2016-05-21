@@ -10,7 +10,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class GL2JNIRenderer implements GLSurfaceView.Renderer {
 
-	public Object lock = new Object();
+	final public Object lock = new Object();
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
