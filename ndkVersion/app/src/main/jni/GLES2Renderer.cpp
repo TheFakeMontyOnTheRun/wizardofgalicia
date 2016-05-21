@@ -24,14 +24,11 @@
 #include "IRenderer.h"
 #include <CGame.h>
 
-#include "WalkBouncer.h"
 #include "NativeBitmap.h"
 #include "Trig.h"
-#include "TrigBatch.h"
 
 #include "IComponent.h"
 #include "SceneElement.h"
-#include "Material.h"
 #include "MeshComponent.h"
 
 #include "GLES2Renderer.h"

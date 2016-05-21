@@ -35,7 +35,6 @@ namespace odb {
 	    GLint textureCoordinatesAttributePosition;
 	    GLint projectionMatrixAttributePosition;
 	    GLint gProgram;
-	    WalkBouncer mBouncer;
 	    GLuint textureId;
 	    glm::vec3 camera;
 	    glm::vec3 cameraDirection;

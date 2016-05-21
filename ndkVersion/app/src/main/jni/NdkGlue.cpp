@@ -54,12 +54,9 @@
 
 #include "NativeBitmap.h"
 #include "Trig.h"
-#include "WalkBouncer.h"
-#include "TrigBatch.h"
 
 #include "IComponent.h"
 #include "SceneElement.h"
-#include "Material.h"
 #include "MeshComponent.h"
 
 #include "GLES2Renderer.h"
@@ -176,49 +173,6 @@ float toFloat(const char *nptr)
     return (strtod(nptr, NULL));
 }
 
-glm::vec3 readVertex(std::vector<std::string>::iterator &it) {
-    float x = toFloat(it->c_str());
-    it++;
-
-    float y = toFloat(it->c_str());
-    it++;
-
-    float z = toFloat(it->c_str());
-    it++;
-
-    return glm::vec3(x, y, z);
-}
-
-glm::vec2 readUv(std::vector<std::string>::iterator &it) {
-    float x = toFloat(it->c_str());
-    it++;
-
-    float y = toFloat(it->c_str());
-    it++;
-
-    return glm::vec2(x, y);
-}
-
-std::string filterComments(std::string input) {
-    bool reading = true;
-    std::stringstream output;
-
-    for (auto &character : input) {
-
-        if (character == '/') {
-            reading = false;
-        } else if (character == '\n') {
-            reading = true;
-        }
-
-        if (reading) {
-            output << character;
-        }
-    }
-
-    return output.str();
-}
-
 void readWorld(JNIEnv *env, void *reserved,
                jobject assetManager) {
 
@@ -236,45 +190,6 @@ void readWorld(JNIEnv *env, void *reserved,
 		worldData.replace( position, 1, "" );
 		position = worldData.find( '\n', position + 1);
 	}
-
-//    std::stringstream buffer;
-//
-//    buffer << filterComments(worldData);
-//
-//    std::vector<std::string> tokenList{std::istream_iterator<std::string>(buffer),
-//                                       std::istream_iterator<std::string>{}};
-//    auto it = tokenList.begin();
-//    auto end = tokenList.end() - 1;
-//
-//    it++;
-//
-//    int numPolies = atoi(it->c_str());
-//
-//    it++;
-//    int currentMaterial = 0;
-//    int polyCount = 0;
-//
-//    while (polyCount < numPolies && it != end) {
-//        Trig trig;
-//
-//        if ( *it == "m" ) {
-//            ++it;
-//            currentMaterial = atoi( it->c_str() );
-//            ++it;
-//        }
-//
-//        trig.p0 = readVertex(it);
-//        trig.t0 = readUv(it);
-//        trig.p1 = readVertex(it);
-//        trig.t1 = readUv(it);
-//        trig.p2 = readVertex(it);
-//        trig.t2 = readUv(it);
-//
-//        batches[ currentMaterial ].push_back(trig);
-//        ++polyCount;
-//    }
-//
-//    LOGI("done loading\n");
 }
 
 void JNICALL Java_br_odb_wog_GL2JNILib_onCreate(JNIEnv *env, void *reserved,

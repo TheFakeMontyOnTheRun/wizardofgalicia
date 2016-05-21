@@ -8,7 +8,6 @@
 
 #include "IComponent.h"
 #include "Trig.h"
-#include "Material.h"
 #include "MeshComponent.h"
 
 namespace odb {
