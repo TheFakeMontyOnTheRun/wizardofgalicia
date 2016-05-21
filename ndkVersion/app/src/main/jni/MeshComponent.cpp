@@ -14,7 +14,7 @@ namespace odb {
 	MeshComponent::MeshComponent() { }
 
 	void MeshComponent::addTriangle(std::shared_ptr<Trig> triangle) {
-		mTriangles.push_back( triangle );
+		mTriangles.push_back(triangle);
 	}
 
 	std::vector<std::shared_ptr<Trig>> MeshComponent::getTriangles() {

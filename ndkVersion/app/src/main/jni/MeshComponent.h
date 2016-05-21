@@ -6,17 +6,17 @@
 #define CARDBOARDVERSION_MESHCOMPONENT_H
 
 namespace odb {
-    class MeshComponent : public IComponent{
+	class MeshComponent : public IComponent {
 
-	    std::vector<std::shared_ptr<Trig>> mTriangles;
-    public:
+		std::vector<std::shared_ptr<Trig>> mTriangles;
+	public:
 
-	    MeshComponent();
+		MeshComponent();
 
-	    std::vector<std::shared_ptr<Trig>> getTriangles();
+		std::vector<std::shared_ptr<Trig>> getTriangles();
 
-	    void addTriangle(std::shared_ptr<Trig> triangle);
-    };
+		void addTriangle(std::shared_ptr<Trig> triangle);
+	};
 }
 
 #endif //CARDBOARDVERSION_MESHCOMPONENT_H

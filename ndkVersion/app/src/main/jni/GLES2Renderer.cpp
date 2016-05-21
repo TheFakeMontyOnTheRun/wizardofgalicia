@@ -245,7 +245,7 @@ namespace odb {
 
 	void GLES2Renderer::render() {
 
-		if ( needsToRebuildGraphics ) {
+		if (needsToRebuildGraphics) {
 			return;
 		}
 
@@ -257,10 +257,7 @@ namespace odb {
 		glEnable(GL_DEPTH_TEST);
 
 		checkGlError("before drawing");
-
-
-
-
+		
 		glEnableVertexAttribArray(vertexAttributePosition);
 		glEnableVertexAttribArray(textureCoordinatesAttributePosition);
 
@@ -303,7 +300,7 @@ namespace odb {
 
 		needsToRebuildGraphics = needsToRebuildGraphics || game.hasPendingProjectiles();
 
-		if ( !needsToRebuildGraphics ) {
+		if (!needsToRebuildGraphics) {
 			return;
 		}
 
@@ -317,18 +314,19 @@ namespace odb {
 
 		auto camera = game.mPlayer;
 
-		if ( camera == nullptr ) {
+		if (camera == nullptr) {
 			return;
 		}
 
 		mCharacters.clear();
 
 		for (auto &character : game.map->actors) {
-			if ( character->hp > 0 ) {
+			if (character->hp > 0) {
 				auto pos = character->position;
-				std::shared_ptr<SceneElement> element = makeQuadElementAt(pos.x - camera->position.x,
-				                                                          10.0f + pos.y - camera->position.y,
-				                                                          character->view);
+				std::shared_ptr<SceneElement> element = makeQuadElementAt(
+						pos.x - camera->position.x,
+						10.0f + pos.y - camera->position.y,
+						character->view);
 				mQuadsForCharacters[character] = element;
 				mCharacters.push_back(element);
 			}
@@ -337,7 +335,9 @@ namespace odb {
 
 		for (int y = 0; y < 20; ++y) {
 			for (int x = 0; x < 20; ++x) {
-				tileMap[y][x]->transform = glm::translate(glm::mat4(1), getVec3For( x - camera->position.x, 10 + y - camera->position.y));
+				tileMap[y][x]->transform = glm::translate(glm::mat4(1),
+				                                          getVec3For(x - camera->position.x,
+				                                                     10 + y - camera->position.y));
 			}
 		}
 	}
@@ -366,7 +366,7 @@ namespace odb {
 	}
 
 	void GLES2Renderer::playFireballSound() {
-		LOGI( "WOOOOOOSH!" );
+		LOGI("WOOOOOOSH!");
 	};
 
 	void GLES2Renderer::playMeeleeSound() { };
@@ -384,8 +384,11 @@ namespace odb {
 		for (int y = 0; y < 20; ++y) {
 			for (int x = 0; x < 20; ++x) {
 				bool block = map->isBlockAt(x, y);
-				bool isDoor = map->isDoorAt( x, y );
-				std::shared_ptr<SceneElement> element = makeQuadElementAt(x, y, block ? '#' : (isDoor? 'E' : '.') );
+				bool isDoor = map->isDoorAt(x, y);
+				std::shared_ptr<SceneElement> element = makeQuadElementAt(x, y,
+				                                                          block ? '#' : (isDoor
+				                                                                         ? 'E'
+				                                                                         : '.'));
 				mSceneElements.push_back(element);
 				tileMap[y][x] = element;
 
@@ -451,7 +454,7 @@ namespace odb {
 
 	glm::mediump_vec3 GLES2Renderer::getVec3For(int x, int y) const {
 		return glm::vec3(-1.0f + (2.0f * x),
-		                                              1.0f + (20.0f - (2.0f * y)), -40.0f);
+		                 1.0f + (20.0f - (2.0f * y)), -40.0f);
 	};
 
 	void GLES2Renderer::drawMap(WizardOfGalicia::CMap &map,
@@ -461,7 +464,7 @@ namespace odb {
 
 		char toReturn = nextAction;
 
-		if ( toReturn != '.' ) {
+		if (toReturn != '.') {
 			needsToRebuildGraphics = true;
 		}
 
@@ -527,7 +530,7 @@ namespace odb {
 
 	void GLES2Renderer::fire() {
 		needsToRebuildGraphics = true;
-		LOGI( "FIRE" );
+		LOGI("FIRE");
 		nextAction = 'f';
 	}
 }

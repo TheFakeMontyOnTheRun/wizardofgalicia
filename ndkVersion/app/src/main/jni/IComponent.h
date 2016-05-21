@@ -6,10 +6,9 @@
 #define CARDBOARDVERSION_ICOMPONENT_H
 
 namespace odb {
-    class IComponent {
+	class IComponent {
 
-    };
+	};
 }
-
 
 #endif //CARDBOARDVERSION_ICOMPONENT_H

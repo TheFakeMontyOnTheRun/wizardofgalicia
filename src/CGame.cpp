@@ -293,13 +293,13 @@ namespace WizardOfGalicia {
 
 	bool CGame::hasPendingProjectiles() {
 
-		if ( map == nullptr ) {
+		if (map == nullptr) {
 			return false;
 		}
 
 
 		for (auto actor : map->actors) {
-			if (actor->view == '*' && actor->hp > 0 ) {
+			if (actor->view == '*' && actor->hp > 0) {
 				return true;
 			}
 		}

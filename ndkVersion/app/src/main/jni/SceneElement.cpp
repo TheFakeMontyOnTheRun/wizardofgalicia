@@ -15,15 +15,15 @@ namespace odb {
 	SceneElement::SceneElement() : mVisible{true} {
 	}
 
-    void SceneElement::addComponent(std::string name, std::shared_ptr<IComponent> component) {
-	    mComponents[name] = component;
-    }
-
-	std::shared_ptr<IComponent> SceneElement::getComponent(std::string name) {
-		return mComponents[ name ];
+	void SceneElement::addComponent(std::string name, std::shared_ptr<IComponent> component) {
+		mComponents[name] = component;
 	}
 
-    void SceneElement::removeComponent(std::string name) {
+	std::shared_ptr<IComponent> SceneElement::getComponent(std::string name) {
+		return mComponents[name];
+	}
 
-    }
+	void SceneElement::removeComponent(std::string name) {
+
+	}
 }

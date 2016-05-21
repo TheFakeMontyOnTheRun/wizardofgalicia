@@ -56,20 +56,20 @@ import android.util.AttributeSet;
  */
 class GL2JNIView extends GLSurfaceView {
 
-    public GL2JNIRenderer render;
+	public GL2JNIRenderer render;
 
-    public GL2JNIView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-	    setEGLContextClientVersion(2);
-        render = new GL2JNIRenderer();
-        setRenderer(render);
+	public GL2JNIView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		setEGLContextClientVersion(2);
+		render = new GL2JNIRenderer();
+		setRenderer(render);
 
-    }
+	}
 
-    public GL2JNIView(Context context) {
-        super(context);
-	    setEGLContextClientVersion(2);
-        render = new GL2JNIRenderer();
-        setRenderer(render);
-    }
+	public GL2JNIView(Context context) {
+		super(context);
+		setEGLContextClientVersion(2);
+		render = new GL2JNIRenderer();
+		setRenderer(render);
+	}
 }

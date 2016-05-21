@@ -1,87 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:orientation="horizontal"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="horizontal">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="2"
-        android:layout_height="match_parent">
+        android:orientation="vertical">
 
         <Button
+            android:id="@+id/up"
             android:layout_width="match_parent"
-            android:text="Foward"
             android:layout_height="wrap_content"
-            android:id="@+id/up"/>
+            android:text="Foward"/>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <Button
+                android:id="@+id/left"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Left"
-                android:id="@+id/left"/>
+                android:layout_weight="1"
+                android:text="Left"/>
 
             <Button
+                android:id="@+id/right"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="Right"
-                android:id="@+id/right"/>
+                android:layout_weight="1"
+                android:text="Right"/>
         </LinearLayout>
 
         <Button
+            android:id="@+id/down"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Step back"
-            android:id="@+id/down"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:text="Step back"/>
 
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <Button
+                android:id="@+id/strafeleft"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Step Left"
-                android:id="@+id/strafeleft"/>
+                android:layout_weight="1"
+                android:text="Step Left"/>
 
             <Button
+                android:id="@+id/straferight"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="Step Right"
-                android:id="@+id/straferight"/>
+                android:layout_weight="1"
+                android:text="Step Right"/>
         </LinearLayout>
 
     </LinearLayout>
 
     <br.odb.wog.GL2JNIView
+        android:id="@+id/view"
         android:layout_width="0dp"
-        android:layout_weight="5"
         android:layout_height="match_parent"
-        android:id="@+id/view"/>
+        android:layout_weight="5"/>
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="2"
-        android:layout_height="match_parent">
+        android:orientation="vertical">
+
         <Button
+            android:id="@+id/fire"
             android:layout_width="match_parent"
-            android:text="Fire"
             android:layout_height="wrap_content"
-            android:id="@+id/fire"/>
+            android:text="Fire"/>
     </LinearLayout>
 </LinearLayout>

@@ -2,9 +2,9 @@
 #include "IMapElement.h"
 
 namespace WizardOfGalicia {
-  IMapElement::IMapElement() : position() {
-  }
-  
-  void IMapElement::endOfTurn() {
-  }
+	IMapElement::IMapElement() : position() {
+	}
+
+	void IMapElement::endOfTurn() {
+	}
 }

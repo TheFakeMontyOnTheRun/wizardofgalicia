@@ -5,7 +5,6 @@
 #include <memory>
 #include <cmath>
 
-
 #include "Vec2i.h"
 #include "IMapElement.h"
 #include "CDoorway.h"
@@ -39,7 +38,8 @@ namespace WizardOfGalicia {
 			return false;
 		}
 
-		int energyInvestment = (actor->magicEnergy / std::abs<int>(actor->magicEnergy)) * FIREBALL_COST;
+		int energyInvestment =
+				(actor->magicEnergy / std::abs(actor->magicEnergy)) * FIREBALL_COST;
 
 		actor->magicEnergy -= energyInvestment;
 

@@ -12,116 +12,116 @@
 #include "CCuco.h"
 
 namespace WizardOfGalicia {
-  
-  CCuco::CCuco() : CActor() {
-    view = '@';
-    team = Team::VILLAINS;
-    hp = 5;
-    attack = 5;
-    defence = 2;
-    magicEnergy = -1000;
-  }
 
-  bool CCuco::dealWith( std::shared_ptr<CMap> map, int x, int y ) {
-    int dx = x - position.x;
-    int dy = y - position.y;
-
-    std::shared_ptr<CCuco> sharedThis = shared_from_this();
-
-    if ( abs( dx ) > abs( dy ) ) {
-      
-      if ( dx < 0 ) {
-	map->move( Direction::W, sharedThis );       
-	return true;
-      } else if ( dx > 0 ) {
-	map->move( Direction::E, sharedThis ); 
-	return true;
-      }
-    } else {
-
-      if ( dy < 0 ) {
-	map->move( Direction::N, sharedThis );       
-	return true;
-      } else if (dy > 0 ){
-	map->move( Direction::S, sharedThis ); 
-	return true;
-      }
-    }
-
-    return false;
-  }
-
-  bool CCuco::actOn( int newX, int newY,  std::shared_ptr<CMap> map ) { 
-
-    if (map->isValid( newX, newY ) ) {
-      
-      if (map->map[ newY][ newX ] != nullptr
-	  && map->map[ newY][ newX ]->team == Team::HEROES) {
-	
-	if (dealWith( map, newX, newY ) ) {
-	  return true;
+	CCuco::CCuco() : CActor() {
+		view = '@';
+		team = Team::VILLAINS;
+		hp = 5;
+		attack = 5;
+		defence = 2;
+		magicEnergy = -1000;
 	}
-      }
-      
-      if ( map->isBlockAt( newX, newY ) ) {
-	return true;
-      }
-      
-    } 
-    return false;
-  }
 
-  void CCuco::update( std::shared_ptr<CMap> map ) {
+	bool CCuco::dealWith(std::shared_ptr<CMap> map, int x, int y) {
+		int dx = x - position.x;
+		int dy = y - position.y;
 
-    Vec2i scan;
-    int newX;
-    int newY;
-    
-    for (int x = 0; x < 10; ++x) {
+		std::shared_ptr<CCuco> sharedThis = shared_from_this();
 
-      newX =  (x + position.x);
-      newY =  (position.y);
-      scan.x = newX;
-      scan.y = newY;
-      if ( actOn( newX, newY, map ) ) {
-	break;
-      }
-    }
+		if (abs(dx) > abs(dy)) {
 
-    for (int x = 0; x > -10; --x) {
+			if (dx < 0) {
+				map->move(Direction::W, sharedThis);
+				return true;
+			} else if (dx > 0) {
+				map->move(Direction::E, sharedThis);
+				return true;
+			}
+		} else {
 
-      newX =  (x + position.x);
-      newY =  (position.y);
-      scan.x = newX;
-      scan.y = newY;
-      
-      if ( actOn( newX, newY, map ) ) {
-	break;
-      }
-    }
+			if (dy < 0) {
+				map->move(Direction::N, sharedThis);
+				return true;
+			} else if (dy > 0) {
+				map->move(Direction::S, sharedThis);
+				return true;
+			}
+		}
 
-    for (int y = 0; y < 10; ++y) {
+		return false;
+	}
 
-      newX = (position.x);
-      newY = (y + position.y);
-      scan.x = newX;
-      scan.y = newY;
+	bool CCuco::actOn(int newX, int newY, std::shared_ptr<CMap> map) {
 
-      if ( actOn( newX, newY, map ) ) {
-	break;
-      }
-    }
+		if (map->isValid(newX, newY)) {
 
-    for (int y = 0; y > -10; --y) {
+			if (map->map[newY][newX] != nullptr
+			    && map->map[newY][newX]->team == Team::HEROES) {
 
-      newX = (position.x);
-      newY = (y + position.y);
-      scan.x = newX;
-      scan.y = newY;
+				if (dealWith(map, newX, newY)) {
+					return true;
+				}
+			}
 
-      if ( actOn( newX, newY, map ) ) {
-	break;
-      }
-    }
-  }
+			if (map->isBlockAt(newX, newY)) {
+				return true;
+			}
+
+		}
+		return false;
+	}
+
+	void CCuco::update(std::shared_ptr<CMap> map) {
+
+		Vec2i scan;
+		int newX;
+		int newY;
+
+		for (int x = 0; x < 10; ++x) {
+
+			newX = (x + position.x);
+			newY = (position.y);
+			scan.x = newX;
+			scan.y = newY;
+			if (actOn(newX, newY, map)) {
+				break;
+			}
+		}
+
+		for (int x = 0; x > -10; --x) {
+
+			newX = (x + position.x);
+			newY = (position.y);
+			scan.x = newX;
+			scan.y = newY;
+
+			if (actOn(newX, newY, map)) {
+				break;
+			}
+		}
+
+		for (int y = 0; y < 10; ++y) {
+
+			newX = (position.x);
+			newY = (y + position.y);
+			scan.x = newX;
+			scan.y = newY;
+
+			if (actOn(newX, newY, map)) {
+				break;
+			}
+		}
+
+		for (int y = 0; y > -10; --y) {
+
+			newX = (position.x);
+			newY = (y + position.y);
+			scan.x = newX;
+			scan.y = newY;
+
+			if (actOn(newX, newY, map)) {
+				break;
+			}
+		}
+	}
 }
