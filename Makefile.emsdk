@@ -1,7 +1,7 @@
 CXX = em++
 CXXFLAGS = -g  --preload-file res --use-preload-plugins -Iinclude -std=c++1y
 
-OBJS = src/CActor.o  src/CBaphomet.o src/CCuco.o  src/CDemon.o  src/CDoorway.o  src/CGame.o src/CMap.o src/CMoura.o  src/CWizard.o  src/IMapElement.o  src/Vec2i.o src/CFireball.o src/CRelic.o SDLVersion/CSDLRelativeRenderer.o SDLVersion/main.o
+OBJS = src/CActor.o  src/CBaphomet.o src/CCuco.o src/CDoorway.o  src/CGame.o src/CMap.o src/CWizard.o  src/IMapElement.o  src/Vec2i.o src/CFireball.o src/CRelic.o SDLVersion/CSDLRelativeRenderer.o SDLVersion/main.o
 
 
 TARGET = wizard.html
