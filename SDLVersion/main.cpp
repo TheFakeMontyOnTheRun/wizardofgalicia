@@ -6,7 +6,7 @@
 #include <memory>
 #include <map>
 #include <SDL/SDL.h>
-
+#include <sstream>
 #include "Vec2i.h"
 #include "IMapElement.h"
 #include "CActor.h"
@@ -34,10 +34,20 @@ int main ( int argc, char **argv ) {
 
   auto renderer = new WizardOfGalicia::CSDLRelativeRenderer();
 
-  renderer->init();
+  renderer->init( game.map );
 
   renderer->showTitleScreen();
-  game.runGame( renderer, 1 );
+
+  std::ifstream data( "res/map1.txt" );
+  
+  std::string line;
+  std::stringstream ss;
+
+  while ( std::getline( data, line ) ) {
+    ss << line;
+  }
+
+  game.runGame( renderer, ss.str() );
 
 #ifdef __EMSCRIPTEN__
   //  emscripten_request_fullscreen(0, 1);

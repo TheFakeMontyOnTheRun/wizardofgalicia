@@ -56,7 +56,7 @@ namespace WizardOfGalicia {
     return false;
   }
   
-  void CSDLRelativeRenderer::init() {
+  void CSDLRelativeRenderer::init( std::shared_ptr<CMap> map) {
     SDL_Init(  SDL_INIT_EVERYTHING );
     video = SDL_SetVideoMode( 255, 255, 32, 0 );
 
