@@ -181,6 +181,12 @@ public class GL2JNIActivity extends GvrActivity {
 	}
 
 	@Override
+	public void onCardboardTrigger() {
+		super.onCardboardTrigger();
+		GL2JNILib.moveBackward();
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 
