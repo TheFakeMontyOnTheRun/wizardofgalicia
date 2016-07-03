@@ -24,7 +24,6 @@ model {
         stl = "gnustl_static"
 
         cppFlags += "-I${file("./../../include")}".toString()
-        cppFlags += "-I${file("./../../include")}".toString()
         cppFlags += "-I${file("./../../common_includes")}".toString()
         cppFlags += "-I${file("./../../common_includes/glm_0946")}".toString()
     }
@@ -67,6 +66,8 @@ model {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':base')
+    compile project(':common')
 }
 
 
