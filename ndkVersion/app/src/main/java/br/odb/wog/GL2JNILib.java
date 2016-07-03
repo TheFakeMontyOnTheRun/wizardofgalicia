@@ -66,4 +66,8 @@ public class GL2JNILib {
 	public static native void strafeLeft();
 
 	public static native void fire();
+
+	public static native void setEyeMatrix(float[] eyeMatrix);
+
+	public static native void setPerspectiveMatrix(float[] perspective);
 }

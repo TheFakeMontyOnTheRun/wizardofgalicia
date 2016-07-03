@@ -117,6 +117,10 @@ namespace odb {
 		glm::mediump_vec3 getVec3For(int x, int y) const;
 
 		bool needsToRebuildGraphics;
+
+		void setViewMatrix(float *pDouble);
+
+		void setPerspectiveMatrix(float *pDouble);
 	};
 }
 #endif //LESSON02_GLES2LESSON_H

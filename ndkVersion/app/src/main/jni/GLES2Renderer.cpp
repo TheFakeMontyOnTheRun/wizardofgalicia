@@ -207,8 +207,6 @@ namespace odb {
 	}
 
 	void GLES2Renderer::resetTransformMatrices() {
-		viewMatrix = glm::lookAt(camera, camera + cameraDirection,
-		                         glm::vec3(0.0, 1.0f, 0.0f));
 		glUniformMatrix4fv(viewMatrixAttributePosition, 1, false, &viewMatrix[0][0]);
 	}
 
@@ -532,5 +530,13 @@ namespace odb {
 		needsToRebuildGraphics = true;
 		LOGI("FIRE");
 		nextAction = 'f';
+	}
+
+	void GLES2Renderer::setViewMatrix(float *pDouble) {
+		this->viewMatrix = glm::make_mat4( pDouble );
+	}
+
+	void GLES2Renderer::setPerspectiveMatrix(float *pDouble) {
+		this->projectionMatrix = glm::make_mat4( pDouble );
 	}
 }

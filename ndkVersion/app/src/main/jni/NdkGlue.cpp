@@ -141,7 +141,13 @@ JNIEXPORT void JNICALL
 		Java_br_odb_wog_GL2JNILib_strafeRight(JNIEnv *env, jclass type);
 
 JNIEXPORT void JNICALL
+		Java_br_odb_wog_GL2JNILib_setEyeMatrix(JNIEnv *env, jclass type, jfloatArray eyeMatrix_);
+
+JNIEXPORT void JNICALL
 		Java_br_odb_wog_GL2JNILib_fire(JNIEnv *env, jclass type);
+
+JNIEXPORT void JNICALL
+		Java_br_odb_wog_GL2JNILib_setPerspectiveMatrix(JNIEnv *env, jclass type, jfloatArray perspective_);
 
 JNIEXPORT void JNICALL
 		Java_br_odb_wog_GL2JNILib_strafeLeft(JNIEnv *env, jclass type);
@@ -334,4 +340,26 @@ Java_br_odb_wog_GL2JNILib_fire(JNIEnv *env, jclass type) {
 		gles2Lesson->fire();
 		gles2Lesson->tick(game);
 	}
+}
+
+JNIEXPORT void JNICALL
+Java_br_odb_wog_GL2JNILib_setEyeMatrix(JNIEnv *env, jclass type, jfloatArray eyeMatrix_) {
+	jfloat *eyeMatrix = env->GetFloatArrayElements(eyeMatrix_, NULL);
+
+	if (gles2Lesson != nullptr) {
+		gles2Lesson->setViewMatrix(eyeMatrix);
+	}
+
+	env->ReleaseFloatArrayElements(eyeMatrix_, eyeMatrix, 0);
+}
+
+JNIEXPORT void JNICALL
+Java_br_odb_wog_GL2JNILib_setPerspectiveMatrix(JNIEnv *env, jclass type, jfloatArray perspective_) {
+	jfloat *perspective = env->GetFloatArrayElements(perspective_, NULL);
+
+	if (gles2Lesson != nullptr) {
+		gles2Lesson->setPerspectiveMatrix(perspective);
+	}
+
+	env->ReleaseFloatArrayElements(perspective_, perspective, 0);
 }

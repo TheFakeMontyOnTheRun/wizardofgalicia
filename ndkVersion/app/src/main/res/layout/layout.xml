@@ -7,7 +7,6 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
         android:orientation="vertical">
 
         <Button
@@ -68,7 +67,7 @@
 
     <br.odb.wog.GL2JNIView
         android:id="@+id/view"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="5"/>
 
@@ -76,7 +75,6 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
         android:orientation="vertical">
 
         <Button

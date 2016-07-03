@@ -25,9 +25,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.vr.sdk.base.GvrActivity;
+
 import java.io.IOException;
 
-public class GL2JNIActivity extends Activity {
+public class GL2JNIActivity extends GvrActivity {
 
 	GL2JNIView mView;
 	boolean running = false;
@@ -79,6 +81,7 @@ public class GL2JNIActivity extends Activity {
 
 		setContentView(R.layout.layout);
 		mView = (GL2JNIView) findViewById(R.id.view);
+		setGvrView(mView);
 
 		findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
 			@Override

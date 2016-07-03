@@ -36,6 +36,8 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
+import com.google.vr.sdk.base.GvrView;
+
 /**
  * A simple GLSurfaceView sub-class that demonstrate how to perform
  * OpenGL ES 2.0 rendering into a GL Surface. Note the following important
@@ -54,7 +56,7 @@ import android.util.AttributeSet;
  * that matches it exactly (with regards to red/green/blue/alpha channels
  * bit depths). Failure to do so would result in an EGL_BAD_MATCH error.
  */
-class GL2JNIView extends GLSurfaceView {
+class GL2JNIView extends GvrView {
 
 	public GL2JNIRenderer render;
 
