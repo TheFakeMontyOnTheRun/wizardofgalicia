@@ -165,6 +165,9 @@ JNIEXPORT void JNICALL
 		Java_br_odb_wog_GL2JNILib_turnLeft(JNIEnv *env, jclass type);
 
 JNIEXPORT void JNICALL
+		Java_br_odb_wog_GL2JNILib_setCharacterDirection(JNIEnv *env, jclass type, jint direction);
+
+JNIEXPORT void JNICALL
 		Java_br_odb_wog_GL2JNILib_onTouchNormalized(JNIEnv *env, jclass type, jfloat x,
 		                                            jfloat y);
 
@@ -362,4 +365,23 @@ Java_br_odb_wog_GL2JNILib_setPerspectiveMatrix(JNIEnv *env, jclass type, jfloatA
 	}
 
 	env->ReleaseFloatArrayElements(perspective_, perspective, 0);
+}
+
+JNIEXPORT void JNICALL
+Java_br_odb_wog_GL2JNILib_setCharacterDirection(JNIEnv *env, jclass type, jint direction) {
+
+	if (gles2Lesson != nullptr) {
+
+		WizardOfGalicia::Direction oldDirection = game.mPlayer->direction;
+		WizardOfGalicia::Direction newDirection = static_cast<WizardOfGalicia::Direction >( direction );
+		if ( oldDirection != newDirection ) {
+
+			game.mPlayer->direction = newDirection;
+			gles2Lesson->tick(game);
+			LOGI("direction: %d" , direction );
+		}
+
+		//Log.d( "Monty", "Direction: " + direction + " from angle: " + angleXZ );
+
+	}
 }

@@ -70,4 +70,6 @@ public class GL2JNILib {
 	public static native void setEyeMatrix(float[] eyeMatrix);
 
 	public static native void setPerspectiveMatrix(float[] perspective);
+
+	public static native void setCharacterDirection(int direction);
 }
