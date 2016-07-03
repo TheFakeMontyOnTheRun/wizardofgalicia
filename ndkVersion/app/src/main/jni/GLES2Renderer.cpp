@@ -33,6 +33,7 @@
 
 #include "GLES2Renderer.h"
 #include "NdkGlue.h"
+#include "SceneCube.h"
 
 namespace odb {
 
@@ -383,12 +384,32 @@ namespace odb {
 			for (int x = 0; x < 20; ++x) {
 				bool block = map->isBlockAt(x, y);
 				bool isDoor = map->isDoorAt(x, y);
-				std::shared_ptr<SceneElement> element = makeQuadElementAt(x, y,
-				                                                          block ? '#' : (isDoor
-				                                                                         ? 'E'
-				                                                                         : '.'));
+				std::shared_ptr<SceneElement> element = nullptr;
+				element = makeCubeElementAt(x, y, '.' );
 				mSceneElements.push_back(element);
 				tileMap[y][x] = element;
+
+			}
+		}
+
+
+		for (int y = 0; y < 20; ++y) {
+			for (int x = 0; x < 20; ++x) {
+				bool block = map->isBlockAt(x, y);
+				bool isDoor = map->isDoorAt(x, y);
+
+				std::shared_ptr<SceneElement> element = nullptr;
+
+				if ( block ) {
+					element = makeCubeElementAt(x, y,'#' );
+				} else if (isDoor) {
+					element = makeQuadElementAt(x, y,'E');
+				}
+
+				if ( element != nullptr ) {
+					mSceneElements.push_back(element);
+					tileMap[y][x] = element;
+				}
 
 			}
 		}
@@ -406,17 +427,40 @@ namespace odb {
 
 	std::shared_ptr<SceneElement> GLES2Renderer::makeQuadElementAt(int x, int y,
 	                                                               char representation) const {
-		glm::vec3 p0{-1.0f, -1.0f, -1.0f};
-		glm::vec2 t0{0.0f, 1.0f};
 
-		glm::vec3 p1{1.0f, -1.0f, -1.0f};
-		glm::vec2 t1{1.0f, 1.0f};
+		glm::vec3 p0;
+		glm::vec2 t0;
 
-		glm::vec3 p2{1.0f, 1.0f, -1.0f};
-		glm::vec2 t2{1.0f, 0.0f};
+		glm::vec3 p1;
+		glm::vec2 t1;
 
-		glm::vec3 p3{-1.0f, 1.0f, -1.0f};
-		glm::vec2 t3{0.0f, 0.0f};
+		glm::vec3 p2;
+		glm::vec2 t2;
+
+		glm::vec3 p3;
+		glm::vec2 t3;
+
+		if ( representation == '.') {
+			p0 = glm::vec3{-1.0f, -1.0f, -1.0f};
+			p1 = glm::vec3{1.0f, -1.0f, -1.0f};
+			p2 = glm::vec3{1.0f, -1.0f, 1.0f};
+			p3 = glm::vec3{-1.0f, -1.0f, 1.0f};
+			t0 = glm::vec2{0.0f, 1.0f};
+			t1 = glm::vec2{1.0f, 1.0f};
+			t2 = glm::vec2{1.0f, 0.0f};
+			t3 = glm::vec2{0.0f, 0.0f};
+		} else {
+			p0 = glm::vec3{-1.0f, -1.0f, -1.0f};
+			p1 = glm::vec3{1.0f, -1.0f, -1.0f};
+			p2 = glm::vec3{1.0f, 1.0f, -1.0f};
+			p3 = glm::vec3{-1.0f, 1.0f, -1.0f};
+			t0 = glm::vec2{0.0f, 1.0f};
+			t1 = glm::vec2{1.0f, 1.0f};
+			t2 = glm::vec2{1.0f, 0.0f};
+			t3 = glm::vec2{0.0f, 0.0f};
+		}
+
+
 
 		auto trig1 = std::make_shared<Trig>();
 		auto trig2 = std::make_shared<Trig>();
@@ -451,8 +495,8 @@ namespace odb {
 	}
 
 	glm::mediump_vec3 GLES2Renderer::getVec3For(int x, int y) const {
-		return glm::vec3(-1.0f + (2.0f * x),
-		                 1.0f + (20.0f - (2.0f * y)), -40.0f);
+		return glm::vec3(-1.0f + (2.0f * x), -1.0f,
+		                 1.0f + (20.0f - (2.0f * y)));
 	};
 
 	void GLES2Renderer::drawMap(WizardOfGalicia::CMap &map,
@@ -538,5 +582,29 @@ namespace odb {
 
 	void GLES2Renderer::setPerspectiveMatrix(float *pDouble) {
 		this->projectionMatrix = glm::make_mat4( pDouble );
+	}
+
+	std::shared_ptr<SceneElement> GLES2Renderer::makeCubeElementAt(int x, int y, char representation) {
+		uint textureId = getMaterialForRepresentation(representation);
+
+		float from = -1;
+		float to = 3;
+		bool shouldRenderWalls;
+
+		if ( representation == '#') {
+			shouldRenderWalls = true;
+		} else if ( representation == '.') {
+			shouldRenderWalls = false;
+		} else {
+			from = -1;
+			to = 1;
+		}
+
+		auto element = std::make_shared<SceneCube>(textureId, from, to, shouldRenderWalls);
+		element->transform = glm::translate(glm::mat4(1),
+		                                    getVec3For(x, y));
+
+
+		return element;
 	}
 }

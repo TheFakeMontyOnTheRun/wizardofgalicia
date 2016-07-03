@@ -121,6 +121,8 @@ namespace odb {
 		void setViewMatrix(float *pDouble);
 
 		void setPerspectiveMatrix(float *pDouble);
+
+		std::shared_ptr<SceneElement> makeCubeElementAt(int x, int y, char i);
 	};
 }
 #endif //LESSON02_GLES2LESSON_H
