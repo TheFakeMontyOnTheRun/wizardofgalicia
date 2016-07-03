@@ -51,3 +51,10 @@ Trig::~Trig() {
 	delete cachedUVData;
 	delete cachedVertexData;
 }
+
+Trig::Trig(glm::vec3 aP0, glm::vec2 aT0, glm::vec3 aP1, glm::vec2 aT1, glm::vec3 aP2,
+           glm::vec2 aT2, uint aTextureId) : p0( aP0 ), t0( aT0 ), p1( aP1 ), t1( aT1 ), p2( aP2 ), t2( aT2 ), textureId( aTextureId)  {
+	cachedVertexData = nullptr;
+	cachedUVData = nullptr;
+
+}

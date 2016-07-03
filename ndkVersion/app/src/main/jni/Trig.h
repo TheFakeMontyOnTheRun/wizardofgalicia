@@ -19,7 +19,7 @@ public:
 	glm::vec3 p2;
 	glm::vec2 t2;
 
-	unsigned int textureId;
+	uint textureId;
 
 	Trig();
 
@@ -28,6 +28,9 @@ public:
 	const float *getUVData();
 
 	virtual ~Trig();
+
+	Trig(glm::vec3 tvec3, glm::vec2 tvec2, glm::vec3 tvec31, glm::vec2 tvec21, glm::vec3 tvec32,
+		     glm::vec2 tvec22, uint textureId );
 };
 
 
